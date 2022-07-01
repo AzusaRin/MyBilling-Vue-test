@@ -1,10 +1,16 @@
 <template>
-<div>Billing</div>
+  <div>Billing
+    <Nav/>
+  </div>
 </template>
 
 <script lang="ts">
+
+
 export default {
-  name: 'Billing'
+  name: 'Billing',
+
+
 };
 </script>
 
