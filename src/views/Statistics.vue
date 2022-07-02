@@ -1,8 +1,8 @@
 <template>
   <div>
-  <layout>
-    <p>Statistics</p>
-  </layout>
+    <layout>
+      <p>Statistics</p>
+    </layout>
   </div>
 </template>
 
