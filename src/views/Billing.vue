@@ -1,6 +1,8 @@
 <template>
-  <div>Billing
-    <Nav/>
+  <div>
+  <layout>
+    <p>Billing</p>
+  </layout>
   </div>
 </template>
 
