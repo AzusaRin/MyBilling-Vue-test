@@ -1,18 +1,18 @@
 <template>
   <nav>
-    <router-link to="/billing/" class="item">
+     <router-link to="/billing/" class="item"  active-class="selected">
       <svg class="icon">
         <icon name="billing"/>
       </svg>
       记账
     </router-link>
-    <router-link to="/labels/" class="item">
+    <router-link to="/labels/" class="item"  active-class="selected">
       <svg class="icon">
         <icon name="labels"/>
       </svg>
       标签
     </router-link>
-    <router-link to="/statistics/" class="item">
+    <router-link to="/statistics/" class="item"  active-class="selected">
       <svg class="icon">
         <icon name="statistics"/>
       </svg>
@@ -56,7 +56,9 @@ nav {
     align-items: center;
     flex-direction: column;
   }
-
+  >.item.selected{
+    color: red;
+  }
 }
 
 </style>
