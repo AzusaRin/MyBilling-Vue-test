@@ -1,15 +1,29 @@
 <template>
   <div>
     <ul class="types">
-      <li class="selected">收入</li>
-      <li>支出</li>
+      <li v-bind:class="type==='+' && 'selected'" @click="selectType('+')">收入</li>
+      <li v-bind:class="type==='-' && 'selected'" @click="selectType('-')">支出</li>
     </ul>
   </div>
 </template>
 
-<script lang="ts">
+<script >
 export default {
-  name: 'types'
+  name: 'types',
+
+  data(){
+    return{
+      type:'-'//'-'表示支出，'+'表示收入
+    }
+  },
+  methods:{
+    selectType(type){
+      if(type !=='-' && type !=='+'){
+        throw new Error('type is unknown')
+      }
+      this.type = type
+    }
+  }
 };
 </script>
 
