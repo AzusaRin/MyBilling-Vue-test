@@ -1,6 +1,6 @@
 <template>
-  <div class="nav-wrapper">
-    <div class="content">
+  <div class="layout-wrapper">
+    <div class="content" v-bind:class="classPrefix && `${classPrefix}-content`">
       <slot/>
     </div>
     <Nav/>
@@ -9,15 +9,14 @@
 
 <script lang="ts">
 export default {
-  name: 'Layout'
+  name: 'Layout',
+  props: ['classPrefix']
 };
 </script>
 
 <style lang="scss" scoped>
-.nav{
-border: 1px solid red;
-}
-.nav-wrapper{
+
+.layout-wrapper{
   display: flex;
   border: 1px solid blue;
   flex-direction: column;
