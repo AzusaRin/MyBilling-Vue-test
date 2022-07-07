@@ -41,7 +41,7 @@ export default class numberPad extends Vue {
     }
 
     if (this.output === '0') {
-      if ('0123456789'.indexOf(input) >= 0) {
+      if ('0123456789'.includes(input)) {
         this.output = input;
       } else {
         this.output += input;
