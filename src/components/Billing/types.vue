@@ -9,19 +9,20 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
+import {Component,Prop} from 'vue-property-decorator';
 
 @Component
 export default class types extends Vue {
-  type = '-';
+  @Prop(Number) xxx: number | undefined
 
+  type = '+';
   selectType(type: string) {
     if (type !== '-' && type !== '+') {
       throw new Error('type is unknown');
     }
    this.type = type;
-  }
 
+  }
 }
 </script>
 
