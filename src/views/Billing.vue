@@ -1,6 +1,5 @@
 <template>
   <layout class-prefix="layout">
-    {{ recordList }}
     <tags :data-source.sync="tags"
           @update:value="nowTags"/>
     <notes @update:value="nowNotes"/>
@@ -17,12 +16,13 @@ import Notes from '@/components/Billing/notes.vue';
 import Types from '@/components/Billing/types.vue';
 import NumberPad from '@/components/Billing/numberPad.vue';
 import {Component, Watch} from 'vue-property-decorator';
-import model from '@/model';
+import recordListModel from '@/models/recordListModel';
+import tagListModel from '@/models/tagListModel';
 
 @Component({components: {NumberPad, Types, Notes, Tags}})
 export default class Billing extends Vue {
-  tags = ['1', '2', '3', '4'];
-  recordList = model.fetch();
+  tags = tagListModel.fetch();
+  recordList = recordListModel.fetch();
   record: RecordItem = {
     tags: [], type: '-', notes: '', amount: 0
   };
@@ -44,7 +44,7 @@ export default class Billing extends Vue {
   }
 
   saveRecord() {
-    const newRecord = model.clone(this.record);
+    const newRecord = recordListModel.clone(this.record);
     newRecord.createAt = new Date();
     this.recordList.push(newRecord);
 
@@ -52,7 +52,7 @@ export default class Billing extends Vue {
 
   @Watch('recordList')
   onRecordListChange() {
-    model.save(this.recordList);
+    recordListModel.save(this.recordList);
   }
 
 }
