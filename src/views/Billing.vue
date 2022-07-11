@@ -2,7 +2,7 @@
   <layout class-prefix="layout">
     <tags :data-source.sync="tags"
           @update:value="nowTags"/>
-    <notes @update:value="nowNotes"/>
+    <notes field-name="备注" place-holder="请在这里输入备注" @update:value="nowNotes"/>
     <types :value="record.type" @update:value="nowTypes"/>
     <number-pad @update:value="nowAmount" @submit="saveRecord"/>
   </layout>

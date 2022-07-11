@@ -71,9 +71,15 @@ export default class numberPad extends Vue {
   }
 
   ok() {
-    this.$emit('update:value', this.output);
-    this.$emit('submit',this.output);
-    this.output = '0'
+    if(this.output === '0'){
+      window.alert('没钱不记账哦')
+      return;
+    }else {
+      this.$emit('update:value', this.output);
+      this.$emit('submit',this.output);
+      this.output = '0'
+    }
+
   }
 
 
