@@ -17,6 +17,7 @@ import Notes from '@/components/Billing/notes.vue';
 import Types from '@/components/Billing/types.vue';
 import NumberPad from '@/components/Billing/numberPad.vue';
 import {Component, Watch} from 'vue-property-decorator';
+const {model} = require('@/model.js');
 
 const version = window.localStorage.getItem('version');
 const recordList: Record[] = JSON.parse(window.localStorage.getItem('recordList') || '[]');
@@ -41,7 +42,7 @@ type Record = {
 @Component({components: {NumberPad, Types, Notes, Tags}})
 export default class Billing extends Vue {
   tags = ['1', '2', '3', '4'];
-  recordList: Record[] = JSON.parse(window.localStorage.getItem('recordList') || '[]');
+  recordList: Record[] = model.fetch();
   record: Record = {
     tags: [], type: '-', notes: '', amount: 0
   };
