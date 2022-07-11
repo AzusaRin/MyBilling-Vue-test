@@ -4,8 +4,8 @@
     <tags :data-source.sync="tags"
           @update:value="nowTags"/>
     <notes @update:value="nowNotes"/>
-    <types @update:value="nowTypes"/>
-    <number-pad @update:value="nowAmount"/>
+    <types :value="record.type" @update:value="nowTypes"/>
+    <number-pad @update:value="nowAmount" @submit="saveRecord"/>
   </layout>
 </template>
 
@@ -16,7 +16,7 @@ import Tags from '@/components/Billing/tags.vue';
 import Notes from '@/components/Billing/notes.vue';
 import Types from '@/components/Billing/types.vue';
 import NumberPad from '@/components/Billing/numberPad.vue';
-import {Component} from 'vue-property-decorator';
+import {Component, Watch} from 'vue-property-decorator';
 
 type Record = {
   tags: string[]
@@ -28,6 +28,7 @@ type Record = {
 @Component({components: {NumberPad, Types, Notes, Tags}})
 export default class Billing extends Vue {
   tags = ['1', '2', '3', '4'];
+  recordList: Record[] = [];
   record: Record = {
     tags: [], type: '-', notes: '', amount: 0
   };
@@ -46,6 +47,17 @@ export default class Billing extends Vue {
 
   nowAmount(value: string) {
     this.record.amount = parseFloat(value);
+  }
+
+  saveRecord() {
+    const newRecord = JSON.parse(JSON.stringify(this.record));
+    this.recordList.push(newRecord);
+
+  }
+
+  @Watch('recordList')
+  onRecordListChange() {
+    window.localStorage.setItem('recordList', JSON.stringify(this.recordList));
   }
 
 }
