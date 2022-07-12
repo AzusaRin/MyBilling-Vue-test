@@ -1,0 +1,29 @@
+<template>
+  <button class="button">
+    <slot/>
+  </button>
+</template>
+
+<script lang="ts">
+import Vue from 'vue';
+import {Component} from 'vue-property-decorator';
+
+@Component
+export default class DeleteButton extends Vue {
+
+}
+</script>
+
+<style lang="scss" scoped>
+.button {
+  background-color: #71C9CE;
+  color: #333333;
+  border-radius: 4px;
+  border: none;
+  padding: 0 16px;
+  height: 40px;
+
+
+  }
+
+</style>

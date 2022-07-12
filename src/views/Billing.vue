@@ -2,7 +2,9 @@
   <layout class-prefix="layout">
     <tags :data-source.sync="tags"
           @update:value="nowTags"/>
-    <notes field-name="备注" place-holder="请在这里输入备注" @update:value="nowNotes"/>
+    <div class="notes">
+      <FormItem field-name="备注" place-holder="请在这里输入备注" @update:value="nowNotes"/>
+    </div>
     <types :value="record.type" @update:value="nowTypes"/>
     <number-pad @update:value="nowAmount" @submit="saveRecord"/>
   </layout>
@@ -12,14 +14,15 @@
 import Vue from 'vue';
 
 import Tags from '@/components/Billing/tags.vue';
-import Notes from '@/components/Billing/notes.vue';
+import Notes from '@/components/Billing/FormItem.vue';
 import Types from '@/components/Billing/types.vue';
 import NumberPad from '@/components/Billing/numberPad.vue';
 import {Component, Watch} from 'vue-property-decorator';
 import recordListModel from '@/models/recordListModel';
 import tagListModel from '@/models/tagListModel';
+import FormItem from '@/components/Billing/FormItem.vue';
 
-@Component({components: {NumberPad, Types, Notes, Tags}})
+@Component({components: {FormItem, NumberPad, Types, Notes, Tags}})
 export default class Billing extends Vue {
   tags = tagListModel.fetch();
   recordList = recordListModel.fetch();
@@ -62,6 +65,10 @@ export default class Billing extends Vue {
   display: flex;
   flex-direction: column;
 
+}
+.notes{
+  background-color: white;
+  padding: 6px 0;
 }
 
 </style>

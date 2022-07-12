@@ -61,6 +61,7 @@ export default class tags extends Vue {
   display: flex;
   flex-direction: column-reverse;
 
+
   > .current {
     display: flex;
     flex-wrap: wrap;

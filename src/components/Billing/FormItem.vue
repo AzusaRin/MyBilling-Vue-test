@@ -13,7 +13,7 @@ import Vue from 'vue';
 import {Component, Prop, Watch} from 'vue-property-decorator';
 
 @Component
-export default class notes extends Vue {
+export default class FormItem extends Vue {
   value = '';
   @Prop({required: true}) fieldName!: string;
   @Prop() placeHolder?: string;
@@ -27,11 +27,11 @@ export default class notes extends Vue {
 
 <style lang="scss" scoped>
 .notes {
-  background-color: #CBF1F5;
   display: flex;
   align-items: center;
   font-size: 14px;
   padding-left: 16px;
+  background-color: white;
 
   .noteName {
     padding-right: 16px;
@@ -39,7 +39,7 @@ export default class notes extends Vue {
   }
 
   input {
-    padding: 16px 0;
+    height: 40px;
     flex-grow: 1;
     background-color: transparent;
     border: none;
