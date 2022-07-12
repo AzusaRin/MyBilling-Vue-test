@@ -1,5 +1,6 @@
 <template>
   <layout class-prefix="layout">
+    <span>{{ record }}</span>
     <tags :data-source.sync="tags"
           @update:value="nowTags"/>
     <div class="notes">
