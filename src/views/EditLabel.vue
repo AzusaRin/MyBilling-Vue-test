@@ -5,7 +5,7 @@
       <span class="title">编辑标签</span>
     </div>
     <div class="form-wrapper">
-      <FormItem field-name="标签名" place-holder="请输入标签名"/>
+      <FormItem :value="tag.name"  field-name="标签名" place-holder="请输入标签名"/>
     </div>
     <div class="button-wrapper">
       <DeleteButton>删除标签</DeleteButton>
@@ -24,12 +24,15 @@ import DeleteButton from '@/components/DeleteButton.vue';
   components: {DeleteButton, FormItem}
 })
 export default class EditLabel extends Vue {
+  tag?:{id:string,name:string} = undefined
   created() {
     const id = this.$route.params.id;
     tagListModel.fetch();
-    const tag = tagListModel.data.filter(tag => tag.id === id)[0];
+    const tag= tagListModel.data.filter(tag => tag.id === id)[0];
     if (tag) {
-      console.log(tag);
+      this.tag=tag;
+    }else {
+      this.$router.replace('/404');
     }
   }
 }

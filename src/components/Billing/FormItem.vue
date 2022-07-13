@@ -33,6 +33,7 @@ export default class FormItem extends Vue {
   padding-left: 16px;
   background-color: white;
 
+
   .noteName {
     padding-right: 16px;
 
@@ -44,6 +45,7 @@ export default class FormItem extends Vue {
     background-color: transparent;
     border: none;
     padding-right: 16px;
+    font-size: 14px;
   }
 }
 
