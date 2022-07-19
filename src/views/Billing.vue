@@ -24,7 +24,7 @@ import FormItem from '@/components/Billing/FormItem.vue';
 
 @Component({components: {FormItem, NumberPad, Types, Notes, Tags}})
 export default class Billing extends Vue {
-  tags = tagListModel.fetch();
+  tags = window.tagList;
   recordList = recordListModel.fetch();
   record: RecordItem = {
     tags: [], type: '-', notes: '', amount: 0
