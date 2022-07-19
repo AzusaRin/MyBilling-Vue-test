@@ -47,9 +47,7 @@ export default class Billing extends Vue {
   }
 
   saveRecord() {
-    const newRecord = recordListModel.clone(this.record);
-    newRecord.createAt = new Date();
-    this.recordList.push(newRecord);
+    recordListModel.create(this.record);
 
   }
 
@@ -66,7 +64,8 @@ export default class Billing extends Vue {
   flex-direction: column;
 
 }
-.notes{
+
+.notes {
   background-color: white;
   padding: 6px 0;
 }
