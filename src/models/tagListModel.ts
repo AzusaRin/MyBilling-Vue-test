@@ -1,3 +1,5 @@
+import createId from '@/lib/createId';
+
 const localStorageKeyName = 'tagList';
 type Tag = {
   id: string
@@ -20,13 +22,14 @@ const tagListModel: TagListModel = {
   },
   //创建标签
   create(name) {
+    const id = createId().toString();
     const names = this.data.map(item => item.name);
     if (names.includes(name)) {
       return 'duplicated';
     } else if (name.length >= 10) {
       return 'long';
     } else {
-      this.data.push({id: name, name: name});
+      this.data.push({id, name: name});
       this.save();
       return 'succeed';
     }
@@ -50,16 +53,16 @@ const tagListModel: TagListModel = {
     }
   },
   //删除标签
-  remove(id:string) {
+  remove(id: string) {
     let index = -1;
     for (let i = 0; i < this.data.length; i++) {
-     if( this.data[i].id === id) {
-       index = i;
-       break;
-     }
+      if (this.data[i].id === id) {
+        index = i;
+        break;
+      }
     }
-    this.data.splice(index,1);
-    return true
+    this.data.splice(index, 1);
+    return true;
 
   },
   //保存数据
