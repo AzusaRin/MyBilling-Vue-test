@@ -2,7 +2,7 @@
   <div>
     <label class="notes">
       <span class="noteName">{{ this.fieldName }}</span>
-      <input type="text" :placeholder="this.placeHolder"
+      <input type="text" :placeholder="placeHolder"
              :value="value"  @input="onValueChanged($event.target.value)">
     </label>
   </div>
@@ -18,7 +18,6 @@ export default class FormItem extends Vue {
   @Prop({required: true}) fieldName!: string;
   @Prop() placeHolder?: string;
 
-  @Watch('value')
   onValueChanged(value: string) {
     this.$emit('update:value', value);
   }
