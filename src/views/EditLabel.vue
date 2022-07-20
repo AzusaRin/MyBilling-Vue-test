@@ -16,7 +16,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-import tagListModel from '@/models/tagListModel';
 import FormItem from '@/components/Billing/FormItem.vue';
 import DeleteButton from '@/components/DeleteButton.vue';
 
@@ -24,32 +23,29 @@ import DeleteButton from '@/components/DeleteButton.vue';
   components: {DeleteButton, FormItem}
 })
 export default class EditLabel extends Vue {
-  tag?: { id: string, name: string } = undefined;
+  tag = window.findTag(this.$route.params.id);
 
   created() {
-    const id = this.$route.params.id;
-    tagListModel.fetch();
-    const tag = tagListModel.data.filter(tag => tag.id === id)[0];
-    if (tag) {
-      this.tag = tag;
-    } else {
+    if (!this.tag) {
       this.$router.replace('/404');
     }
   }
 
+
   updateTag(name: string) {
     if (this.tag) {
-      tagListModel.update(this.tag.id, name);
+      window.updateTag(this.tag.id, name);
     }
   }
 
   removeTag() {
     if (this.tag) {
-      if (tagListModel.remove(this.tag.id)) {
+      if (window.removeTag(this.tag.id)) {
         this.$router.back();
+      } else {
+        window.alert('删除标签失败');
       }
     }
-
   }
 
   goBack() {
