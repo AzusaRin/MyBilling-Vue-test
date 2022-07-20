@@ -33,18 +33,7 @@ export default class Labels extends Vue {
   createTag() {
     const tagName = window.prompt('请输入标签名');
     if (tagName) {
-      const message = tagListModel.create(tagName);
-      if (message === 'duplicated') {
-        window.alert('请勿输入重复标签');
-      }
-      if (message === 'long') {
-        window.alert('标签名过长，请控制在10字符以内');
-      }
-      if (message === 'succeed') {
-        window.alert('标签添加成功');
-      }
-      console.log(message);
-
+      window.createTag(tagName);
     }
   }
 }
@@ -75,12 +64,12 @@ export default class Labels extends Vue {
     border-bottom: #A6E3E9 1px solid;
   }
 }
-.createTag-wrapper{
-    text-align: center;
-    padding: 16px;
-    margin-top: 44-16px;
-}
 
+.createTag-wrapper {
+  text-align: center;
+  padding: 16px;
+  margin-top: 44-16px;
+}
 
 
 </style>
