@@ -17,14 +17,13 @@ import Tags from '@/components/Billing/tags.vue';
 import Notes from '@/components/Billing/FormItem.vue';
 import Types from '@/components/Billing/types.vue';
 import NumberPad from '@/components/Billing/numberPad.vue';
-import {Component, Watch} from 'vue-property-decorator';
-import recordListModel from '@/models/recordListModel';
+import {Component} from 'vue-property-decorator';
 import FormItem from '@/components/Billing/FormItem.vue';
 
 @Component({components: {FormItem, NumberPad, Types, Notes, Tags}})
 export default class Billing extends Vue {
   tags = window.tagList;
-  recordList = recordListModel.fetch();
+  recordList= window.recordList;
   record: RecordItem = {
     tags: [], type: '-', notes: '', amount: 0
   };
@@ -46,14 +45,10 @@ export default class Billing extends Vue {
   }
 
   saveRecord() {
-    recordListModel.create(this.record);
+    window.createRecord(this.record);
 
   }
 
-  @Watch('recordList')
-  onRecordListChange() {
-    recordListModel.save();
-  }
 
 }
 </script>

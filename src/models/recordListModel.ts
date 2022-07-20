@@ -4,10 +4,11 @@ const localStorageKeyName = 'recordList';
 const recordListModel = {
   data: [] as RecordItem[],
   //创建数据
-  create(record:RecordItem){
-    const newRecord:RecordItem = clone(record)
+  create(record: RecordItem) {
+    const newRecord: RecordItem = clone(record);
     newRecord.createAt = new Date();
     this.data.push(newRecord);
+    this.save();
   },
   //获取数据
   fetch() {
