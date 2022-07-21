@@ -14,35 +14,9 @@ Vue.component('Nav', Nav);
 Vue.component('Layout', Layout);
 Vue.component('Icon', Icon);
 
-//record store
-window.recordList = recordListModel.fetch();
-window.createRecord =(record:RecordItem) =>{recordListModel.create(record)}
 
 
 
-//tag store
-window.tagList = tagListModel.fetch();
-window.findTag = (id: string) => {
-  return window.tagList.filter(tag => tag.id === id)[0];
-};
-window.createTag = (tagName: string) => {
-  const message = tagListModel.create(tagName);
-  if (message === 'duplicated') {
-    window.alert('请勿输入重复标签');
-  }
-  if (message === 'long') {
-    window.alert('标签名过长，请控制在10字符以内');
-  }
-  if (message === 'succeed') {
-    window.alert('标签添加成功');
-  }
-};
-window.removeTag = (id: string) => {
-  return tagListModel.remove(id);
-};
-window.updateTag = (id: string, name: string) => {
-  return tagListModel.update(id, name);
-};
 new Vue({
   router,
   store,

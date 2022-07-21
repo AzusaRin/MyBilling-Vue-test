@@ -20,6 +20,7 @@
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import DeleteButton from '@/components/DeleteButton.vue';
+import store from '@/store/index2';
 
 
 @Component({
@@ -27,12 +28,12 @@ import DeleteButton from '@/components/DeleteButton.vue';
 })
 export default class Labels extends Vue {
 
-  tags = window.tagList;
+  tags =store.tagList;
 
   createTag() {
     const tagName = window.prompt('请输入标签名');
     if (tagName) {
-      window.createTag(tagName);
+      store.createTag(tagName);
     }
   }
 }

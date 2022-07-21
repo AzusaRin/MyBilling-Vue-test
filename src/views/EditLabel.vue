@@ -18,12 +18,13 @@ import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import FormItem from '@/components/Billing/FormItem.vue';
 import DeleteButton from '@/components/DeleteButton.vue';
+import store from '@/store/index2';
 
 @Component({
   components: {DeleteButton, FormItem}
 })
 export default class EditLabel extends Vue {
-  tag = window.findTag(this.$route.params.id);
+  tag = store.findTag(this.$route.params.id);
 
   created() {
     if (!this.tag) {
@@ -34,13 +35,13 @@ export default class EditLabel extends Vue {
 
   updateTag(name: string) {
     if (this.tag) {
-      window.updateTag(this.tag.id, name);
+      store.updateTag(this.tag.id, name);
     }
   }
 
   removeTag() {
     if (this.tag) {
-      if (window.removeTag(this.tag.id)) {
+      if (store.removeTag(this.tag.id)) {
         this.$router.back();
       } else {
         window.alert('删除标签失败');
