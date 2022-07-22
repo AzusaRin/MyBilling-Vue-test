@@ -1,7 +1,6 @@
 <template>
   <layout class-prefix="layout">
-    <tags :data-source.sync="tags"
-          @update:value="nowTags"/>
+    <tags @update:value="nowTags"/>
     <div class="notes">
       <FormItem field-name="备注" place-holder="请在这里输入备注" @update:value="nowNotes"/>
     </div>
