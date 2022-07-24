@@ -17,24 +17,22 @@
 <script lang="ts">
 
 
-import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import DeleteButton from '@/components/DeleteButton.vue';
-import store from '@/store/index2';
+import {mixins} from 'vue-class-component';
+import createTagHelper from '@/mixins/createTagHelper';
 
 
 @Component({
-  components: {DeleteButton}
+  components: {DeleteButton},
 })
-export default class Labels extends Vue {
+export default class Labels extends mixins(createTagHelper) {
+  get tags() {
+    return this.$store.state.tagList;
+  }
 
-  tags =store.tagList;
-
-  createTag() {
-    const tagName = window.prompt('请输入标签名');
-    if (tagName) {
-      store.createTag(tagName);
-    }
+  created() {
+    this.$store.commit('fetchTags');
   }
 }
 </script>

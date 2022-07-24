@@ -18,15 +18,21 @@ import Types from '@/components/Billing/types.vue';
 import NumberPad from '@/components/Billing/numberPad.vue';
 import {Component} from 'vue-property-decorator';
 import FormItem from '@/components/Billing/FormItem.vue';
-import store from '@/store/index2';
 
-@Component({components: {FormItem, NumberPad, Types, Notes, Tags}})
+
+@Component({components: {FormItem, NumberPad, Types, Notes, Tags},})
 export default class Billing extends Vue {
-  tags = store.tagList;
-  recordList= store.recordList;
   record: RecordItem = {
     tags: [], type: '-', notes: '', amount: 0
   };
+
+  get recordList() {
+    return this.$store.state.recordList;
+  }
+
+  created() {
+    this.$store.commit('fetchRecordList');
+  }
 
   nowTags(value: string[]) {
     this.record.tags = value;
@@ -45,7 +51,7 @@ export default class Billing extends Vue {
   }
 
   saveRecord() {
-    store.createRecord(this.record);
+    this.$store.commit('createRecord', this.record);
 
   }
 
