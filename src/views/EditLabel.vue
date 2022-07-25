@@ -5,7 +5,7 @@
       <span class="title">编辑标签</span>
     </div>
     <div class="form-wrapper">
-      <FormItem :value="tag.name" @update:value="updateTag" field-name="标签名" place-holder="请输入标签名"/>
+      <FormItem :value="currentTag.name" @update:value="updateTag" field-name="标签名" place-holder="请输入标签名"/>
     </div>
     <div class="button-wrapper">
       <DeleteButton @click.native="removeTag">删除标签</DeleteButton>
@@ -25,29 +25,29 @@ import DeleteButton from '@/components/DeleteButton.vue';
 })
 export default class EditLabel extends Vue {
 
-  get tag() {
+  get currentTag() {
     return this.$store.state.currentTag;
   }
 
   created() {
     const id = this.$route.params.id;
-    this.$store.commit('fetchTags');
+    this.$store.commit('fetchTagList');
     this.$store.commit('setCurrentTag', id);
-    if (!this.tag) {
+    if (!this.currentTag) {
       this.$router.replace('/404');
     }
   }
 
 
   updateTag(tagName: string) {
-    if (this.tag) {
-      this.$store.commit('updateTag',{id:this.tag.id,name:tagName})
+    if (this.currentTag) {
+      this.$store.commit('updateTag',{id:this.currentTag.id,name:tagName})
     }
   }
 
   removeTag() {
-    if (this.tag) {
-     this.$store.commit('removeTag',this.tag.id)
+    if (this.currentTag) {
+     this.$store.commit('removeTag',this.currentTag.id)
     }
   }
 

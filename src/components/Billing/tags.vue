@@ -1,7 +1,12 @@
 <template>
   <div class="tags">
     <div class="new">
-      <button @click="createTag">新增标签</button>
+      <button @click="createTag">
+        <svg class="icon">
+          <icon name="createTag"/>
+        </svg>
+        新增标签
+      </button>
     </div>
     <ul class="current">
       <li v-for="tag in tagList" :key="tag.id"
@@ -14,9 +19,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-import createTag, {createTagHelper} from '@/mixins/createTagHelper';
+import {createTagHelper} from '@/mixins/createTagHelper';
 import {mixins} from 'vue-class-component';
 
 
@@ -26,11 +30,14 @@ export default class tags extends mixins(createTagHelper) {
   selectedTags: string[] = [];
 
   get tagList() {
-    return this.$store.state.tagList();
+    return this.$store.state.tagList;
+
   }
 
   created() {
-    this.$store.commit('fetchTags');
+    this.$store.commit('fetchTagList');
+    console.log(this.$store.state.tagList);
+
   }
 
   toggle(tag: string) {
@@ -79,15 +86,26 @@ export default class tags extends mixins(createTagHelper) {
   }
 
   .new {
-    padding-top: 16px;
+
 
     button {
       background-color: transparent;
-      border: none;
-      border-bottom: 1px solid;
-      padding: 0 4px;
-      color: #71C9CE;
+      padding: 0 8px;
+      color: #333333;
 
+
+
+
+
+      > .icon {
+        height: 22px;
+        width: 22px;
+        fill: currentColor;
+        overflow: hidden;
+        vertical-align: middle;
+        padding-left: 2px;
+        padding-bottom: 4px;
+      }
     }
   }
 }

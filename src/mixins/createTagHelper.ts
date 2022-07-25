@@ -9,7 +9,7 @@ export class createTagHelper extends Vue {
     if (tagName) {
       this.$store.commit('creatTag', tagName);
     } else {
-      window.prompt('标签名不能为空');
+      window.alert('标签名不能为空');
     }
   }
 }

@@ -19,7 +19,7 @@ const store = new Vuex.Store({
   } as RootState,
   mutations: {
     fetchRecordList(state) {
-      state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]') as RecordItem[];
+      state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]');
 
     },
     createRecord(state, record) {
@@ -31,15 +31,21 @@ const store = new Vuex.Store({
     saveRecords(state) {
       window.localStorage.setItem('recordList', JSON.stringify(state.recordList));
     },
-    fetchTags(state) {
-      state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
+    fetchTagList(state) {
+      try {
+        state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
+      } catch (error) {
+        state.tagList = [];
+      }
+    },
+    setCurrentTag(state, id) {
+      state.currentTag = state.tagList.filter(tag => tag.id === id)[0];
     },
     creatTag(state, tagName) {
       const id = createId().toString();
       const names = state.tagList.map(item => item.name);
       if (names.includes(tagName)) {
         window.alert('请勿输入重复标签');
-
       } else if (tagName.length >= 10) {
         window.alert('标签名过长，请控制在10字符以内');
         return 'long';
@@ -47,11 +53,7 @@ const store = new Vuex.Store({
         state.tagList.push({id, name: tagName});
         store.commit('saveTags');
         window.alert('标签添加成功');
-
       }
-    },
-    setCurrentTag(state, id) {
-      state.currentTag = state.tagList.filter(tag => tag.id === id)[0];
     },
     removeTag(state, id) {
       if (window.confirm('确定删除该标签吗？')) {
@@ -88,8 +90,8 @@ const store = new Vuex.Store({
       }
     },
 
-    saveTags() {
-      window.localStorage.setItem('tagList', JSON.stringify(this.tagList));
+    saveTags(state) {
+      window.localStorage.setItem('tagList', JSON.stringify(state.tagList));
     },
   },
 });
