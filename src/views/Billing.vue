@@ -14,7 +14,6 @@ import Vue from 'vue';
 
 import Tags from '@/components/Billing/tags.vue';
 import Notes from '@/components/Billing/FormItem.vue';
-import Types from '@/components/Billing/types.vue';
 import NumberPad from '@/components/Billing/numberPad.vue';
 import {Component} from 'vue-property-decorator';
 import FormItem from '@/components/Billing/FormItem.vue';
@@ -22,7 +21,7 @@ import recordTypeList from '@/constants/recordTypeList';
 import Tabs from '@/components/Tabs.vue';
 
 
-@Component({components: {Tabs, FormItem, NumberPad, Types, Notes, Tags},})
+@Component({components: {Tabs, FormItem, NumberPad, Notes, Tags},})
 export default class Billing extends Vue {
 
   get recordList() {
