@@ -4,42 +4,13 @@
       <Tabs class-prefix="types" :data-source="recordTypeList" :value.sync="type"/>
       <Tabs class-prefix="interval" :data-source="intervalList" :value.sync="interval"/>
       <ol>
-        <li v-for="(group,index) in result" :key="index">
-          <h3 class="title">{{ group.title }}</h3>
+        <li v-for="group in result" :key="group.title">
+          <h3 class="title">{{ beautify(group.title) }}</h3>
           <ol>
             <li v-for="item in group.items" :key="item.id"
-                class="record"
-            >
-              <span>{{tagToString(item.tags)  }}</span>
-              <span class="notes">{{item.notes }}</span>
-              <span>￥{{ item.amount }}</span>
-            </li>
-          </ol>
-        </li>
-      </ol>
-      <ol>
-        <li v-for="(group,index) in result" :key="index">
-          <h3 class="title">{{ group.title }}</h3>
-          <ol>
-            <li v-for="item in group.items" :key="item.id"
-                class="record"
-            >
-              <span>{{tagToString(item.tags)  }}</span>
-              <span class="notes">{{item.notes }}</span>
-              <span>￥{{ item.amount }}</span>
-            </li>
-          </ol>
-        </li>
-      </ol>
-      <ol>
-        <li v-for="(group,index) in result" :key="index">
-          <h3 class="title">{{ group.title }}</h3>
-          <ol>
-            <li v-for="item in group.items" :key="item.id"
-                class="record"
-            >
-              <span>{{tagToString(item.tags)  }}</span>
-              <span class="notes">{{item.notes }}</span>
+                class="record">
+              <span>{{ tagToString(item.tags) }}</span>
+              <span class="notes">{{ item.notes }}</span>
               <span>￥{{ item.amount }}</span>
             </li>
           </ol>
@@ -56,7 +27,7 @@ import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import intervalList from '@/constants/intervalList';
 import recordTypeList from '@/constants/recordTypeList';
-
+import dayjs from 'dayjs';
 
 
 @Component({
@@ -86,8 +57,26 @@ export default class Statistics extends Vue {
   }
 
   // eslint-disable-next-line no-undef
-  tagToString(tags:Tag[]){
-    return tags.length === 0 ? '无标签':tags.join(',');
+  tagToString(tags: Tag[]) {
+    return tags.length === 0 ? '无标签' : tags.join(',');
+  }
+
+  beautify(string: string) {
+    if (dayjs(string).isSame(dayjs(), 'day')) {
+      return '今天';
+    } else if (dayjs(string).isSame(dayjs().subtract(1, 'day'), 'day')) {
+      return '昨天';
+    } else if (dayjs(string).isSame(dayjs().subtract(2, 'day'), 'day')) {
+      return '前天';
+    } else if (dayjs().isSame(dayjs(string), 'year')) {
+      return dayjs(string).format('今年M月D日');
+    } else if (dayjs().subtract(1, 'year').isSame(dayjs(string), 'year')) {
+      return dayjs(string).format('去年M月D日');
+    } else if (dayjs().subtract(2, 'year').isSame(dayjs(string), 'year')){
+      return dayjs(string).format('前年M月D日');
+    } else {
+      return dayjs(string).format('YYYY年M月D日');
+    }
   }
 
   created() {
@@ -134,7 +123,8 @@ export default class Statistics extends Vue {
     background: white;
     @extend %item
   }
-  .notes{
+
+  .notes {
     margin-right: auto;
     margin-left: 16px;
 
