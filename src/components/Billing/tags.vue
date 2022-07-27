@@ -31,12 +31,10 @@ export default class tags extends mixins(createTagHelper) {
 
   get tagList() {
     return this.$store.state.tagList;
-
   }
 
   created() {
     this.$store.commit('fetchTagList');
-    console.log(this.$store.state.tagList);
 
   }
 

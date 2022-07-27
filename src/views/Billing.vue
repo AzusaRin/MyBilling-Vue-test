@@ -1,6 +1,6 @@
 <template>
   <layout class-prefix="layout">
-    <Tabs data-source="recordTypeList" :value="record.type"/>
+    <Tabs :data-source="recordTypeList" :value="record.type"/>
     <tags @update:value="nowTags"/>
     <div class="notes">
       <FormItem field-name="备注" place-holder="请在这里输入备注" @update:value="nowNotes"/>
