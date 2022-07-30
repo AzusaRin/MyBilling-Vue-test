@@ -3,11 +3,11 @@
     <layout>
       <van-sticky>
         <Tabs class-prefix="types" :data-source="recordTypeList" :value.sync="type"/>
-        <van-cell is-link @click="showPopup">
+        <van-cell is-link @click="showPopup" class="van">
           <svg class="icon">
             <icon name="calendar"/>
           </svg>
-          按年月选择： <span>{{ selectedDate(currentDate) }}</span></van-cell>
+         <span class="nowDate">{{ selectedDate(currentDate) }}</span></van-cell>
         <van-popup v-model="show" round>
           <van-datetime-picker
               v-model="currentDate"
@@ -161,7 +161,7 @@ export default class Statistics extends Vue {
 </script>
 
 <style lang="scss" scoped>
-
+@import "~@/assets/style/helper.scss";
 ::v-deep {
   .types-tabs-item {
 
@@ -207,15 +207,22 @@ export default class Statistics extends Vue {
   }
 
   .icon {
-    height: 22px;
-    width: 22px;
+    height: 30px;
+    width: 30px;
     fill: currentColor;
     overflow: hidden;
     vertical-align: middle;
-    padding-left: 2px;
-    padding-bottom: 4px;
+
+  }
+  .nowDate{
+    margin-left: 40px;
   }
 
 
+}
+.van{
+  height: 50px;
+  font-size: 25px;
+  @extend %innerShadow;
 }
 </style>

@@ -4,19 +4,13 @@
       <svg class="icon">
         <icon name="billing"/>
       </svg>
-      记账
-    </router-link>
-    <router-link to="/labels/" class="item"  active-class="selected">
-      <svg class="icon">
-        <icon name="labels"/>
-      </svg>
-      标签
+      记一笔
     </router-link>
     <router-link to="/statistics/" class="item"  active-class="selected">
       <svg class="icon">
         <icon name="statistics"/>
       </svg>
-      统计
+      账本
     </router-link>
   </nav>
 
