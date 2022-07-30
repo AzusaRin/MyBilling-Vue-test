@@ -58,6 +58,9 @@ export default class tags extends mixins(createTagHelper) {
   toggle(tag: string) {
     if (this.selectedTags.includes(tag)) {
       this.selectedTags.splice(this.selectedTags.indexOf(tag), 1);
+    } else if (this.selectedTags.length >= 3) {
+      this.$toast.fail('最多选择三个标签哦');
+      return;
     } else {
       this.selectedTags.push(tag);
     }
@@ -97,6 +100,7 @@ export default class tags extends mixins(createTagHelper) {
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      flex-grow: 1;
 
       > .svgWrapper {
         display: flex;
