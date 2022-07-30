@@ -2,16 +2,17 @@ type RootState = {
   recordList: RecordItem[]
   tagList: Tag[]
   currentTag?: Tag
+  createRecordError:Error|null
 }
 
 
 
 type RecordItem = {
-  tags: string[]
+  tags: Tag[]
   notes: string
   type: string
   amount: number
-  createAt?: string
+  createAt?: Date
 }
 
 type Tag = {

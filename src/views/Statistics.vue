@@ -1,21 +1,41 @@
 <template>
   <div>
     <layout>
-      <Tabs class-prefix="types" :data-source="recordTypeList" :value.sync="type"/>
-      <Tabs class-prefix="interval" :data-source="intervalList" :value.sync="interval"/>
-      <ol>
-        <li v-for="group in result" :key="group.title">
-          <h3 class="title">{{ beautify(group.title) }}</h3>
+      <van-sticky>
+        <Tabs class-prefix="types" :data-source="recordTypeList" :value.sync="type"/>
+        <van-cell is-link @click="showPopup">
+          <svg class="icon">
+            <icon name="calendar"/>
+          </svg>
+          按年月选择： <span>{{ selectedDate(currentDate) }}</span></van-cell>
+        <van-popup v-model="show" round>
+          <van-datetime-picker
+              v-model="currentDate"
+              type="year-month"
+              title="选择年月"
+              :min-date="minDate"
+              :max-date="maxDate"
+              :formatter="formatter"
+          />
+        </van-popup>
+      </van-sticky>
+      <ol v-if="groupedList.length>0">
+        <li v-for="(group,index) in groupedList" :key="index">
+          <h3 class="title">{{ beautify(group.title) }} <span>总计￥{{ group.total }}</span></h3>
           <ol>
             <li v-for="item in group.items" :key="item.id"
                 class="record">
               <span>{{ tagToString(item.tags) }}</span>
               <span class="notes">{{ item.notes }}</span>
+              <span class="time">{{ timeChecker(item.createAt) }}</span>
               <span>￥{{ item.amount }}</span>
             </li>
           </ol>
         </li>
       </ol>
+      <div v-else>
+        <van-empty image="error" description="当月没有相关记账记录"/>
+      </div>
     </layout>
   </div>
 </template>
@@ -25,9 +45,9 @@
 import Tabs from '@/components/Tabs.vue';
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-import intervalList from '@/constants/intervalList';
 import recordTypeList from '@/constants/recordTypeList';
 import dayjs from 'dayjs';
+import clone from '@/lib/clone';
 
 
 @Component({
@@ -37,28 +57,58 @@ export default class Statistics extends Vue {
   get recordList() {
     // eslint-disable-next-line no-undef
     return (this.$store.state as RootState).recordList;
+
   }
 
-  get result() {
+  get groupedList() {
+
     const {recordList} = this;
-    type HashTableValue = {
-      title: string, items: RecordItem[]
+    type ResultList = {
+      title: string
+      items: RecordItem[]
+      total?: number
+    }[]
+
+    const orderedRecordList = clone(recordList)
+        .filter(r => r.type === this.type
+            && dayjs(r.createAt, 'month').format('YYYY-MM') === (dayjs(this.currentDate, 'month').format('YYYY-MM'))
+        )
+
+        .sort((a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf());
+    if (orderedRecordList.length === 0) {
+      return [];
     }
-
-
-    const hashTable: { [key: string]: HashTableValue } = {};
-    for (let i = 0; i < recordList.length; i++) {
-      const [date, time] = recordList[i].createAt!.split('T');
-      hashTable[date] = hashTable[date] || {title: date, items: []};
-      hashTable[date].items.push(recordList[i]);
+    const resultList: ResultList = [{
+      title: dayjs(orderedRecordList[0].createAt).format('YYYY-MM-DD'),
+      items: [orderedRecordList[0]],
+    }];
+    for (let i = 1; i < orderedRecordList.length; i++) {
+      const current = orderedRecordList[i];
+      const latest = resultList[resultList.length - 1];
+      if (dayjs(latest.title).isSame(dayjs(current.createAt), 'day')) {
+        latest.items.push(current);
+      } else {
+        resultList.push({title: dayjs(current.createAt).format('YYYY-MM-DD'), items: [current]});
+      }
     }
-    return hashTable;
-
+    resultList.map(group => {
+      group.total = group.items.reduce((sum, currentItem) => sum + currentItem.amount, 0);
+    });
+    return resultList;
   }
 
   // eslint-disable-next-line no-undef
   tagToString(tags: Tag[]) {
-    return tags.length === 0 ? '无标签' : tags.join(',');
+    return tags.length === 0 ? '无标签' : tags.map(item => item.name).join(',');
+
+  }
+
+  selectedDate(date: Date) {
+    return dayjs(date, 'month').format('YYYY年M月');
+  }
+
+  timeChecker(date: Date) {
+    return dayjs(date).format('H时m分');
   }
 
   beautify(string: string) {
@@ -72,22 +122,40 @@ export default class Statistics extends Vue {
       return dayjs(string).format('今年M月D日');
     } else if (dayjs().subtract(1, 'year').isSame(dayjs(string), 'year')) {
       return dayjs(string).format('去年M月D日');
-    } else if (dayjs().subtract(2, 'year').isSame(dayjs(string), 'year')){
+    } else if (dayjs().subtract(2, 'year').isSame(dayjs(string), 'year')) {
       return dayjs(string).format('前年M月D日');
     } else {
       return dayjs(string).format('YYYY年M月D日');
     }
   }
 
+  formatter(type: string, val: number) {
+    if (type === 'year') {
+      return `${val}年`;
+    } else if (type === 'month') {
+      return `${val}月`;
+    }
+    return val;
+  }
+
+  showPopup() {
+    this.show = true;
+  }
+
+
   created() {
     this.$store.commit('fetchRecordList');
 
+
   }
 
+
   type = '-';
-  interval = 'day';
-  intervalList = intervalList;
   recordTypeList = recordTypeList;
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date();
+  currentDate = new Date();
+  show = false;
 
 }
 </script>
@@ -96,10 +164,9 @@ export default class Statistics extends Vue {
 
 ::v-deep {
   .types-tabs-item {
-    background: white;
 
     &.selected {
-      background: #c4c4c4;
+      background: rgb(242, 243, 245);
     }
   }
 
@@ -121,13 +188,34 @@ export default class Statistics extends Vue {
 
   .record {
     background: white;
+    overflow: auto;
     @extend %item
   }
 
   .notes {
     margin-right: auto;
     margin-left: 16px;
+    color: #999;
+    font-size: 10px;
 
   }
+
+  .time {
+    margin-left: auto;
+    margin-right: 20px;
+    font-size: 10px;
+  }
+
+  .icon {
+    height: 22px;
+    width: 22px;
+    fill: currentColor;
+    overflow: hidden;
+    vertical-align: middle;
+    padding-left: 2px;
+    padding-bottom: 4px;
+  }
+
+
 }
 </style>

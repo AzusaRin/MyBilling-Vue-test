@@ -12,7 +12,11 @@
       <li v-for="tag in tagList" :key="tag.id"
           :class="{selected:selectedTags.includes(tag)}"
           @click="toggle(tag)"
-      >{{ tag.name }}
+      >
+        <div class="svgWrapper">
+          <icon class="tagIcon" :name="iconName(tag)"/>
+        </div>
+        {{ tag.name }}
       </li>
     </ul>
   </div>
@@ -28,9 +32,22 @@ import {mixins} from 'vue-class-component';
 export default class tags extends mixins(createTagHelper) {
 
   selectedTags: string[] = [];
+  show = false;
+  minDate = new Date(2020, 0, 1);
+  maxDate = new Date();
+  currentDate = new Date();
 
   get tagList() {
     return this.$store.state.tagList;
+  }
+
+  // eslint-disable-next-line no-undef
+  iconName(tag: Tag) {
+    if (parseInt(tag.id)<=20) {
+      return tag.name;
+    } else {
+      return 'tag';
+    }
   }
 
   created() {
@@ -54,7 +71,10 @@ export default class tags extends mixins(createTagHelper) {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/assets/style/helper.scss";
+
 .tags {
+  height: 250px;
   font-size: 14px;
   padding: 16px;
   flex-grow: 1;
@@ -67,44 +87,77 @@ export default class tags extends mixins(createTagHelper) {
     flex-wrap: wrap;
     overflow: auto;
 
+    > ul {
+      overflow: scroll;
+
+    }
+
     > li {
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      background-color: #A6E3E9;
-      height: 24px;
-      border-radius: 12px;
-      padding: 0 16px;
-      margin: 8px;
+
+      > .svgWrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 60px;
+        width: 60px;
+        background-color: white;
+        border-radius: 50%;
+        padding: 0 16px;
+        margin: 8px;
+
+        > .tagIcon {
+          height: 60px;
+          width: 60px;
+          fill: currentColor;
+          overflow: hidden;
+          vertical-align: middle;
+          padding: 2px;
+        }
+      }
 
       &.selected {
-        background-color: blue;
+        > .svgWrapper {
+          background-color: #71C9CE;
+        }
       }
     }
   }
 
   .new {
+    display: flex;
 
 
     button {
-      background-color: transparent;
-      padding: 0 8px;
+      @extend %outerShadow;
+      margin-top: 20px;
+      background-color: white;
+      padding: 8px 20px 8px 8px;
       color: #333333;
+      border-radius: 8px;
+      border: none;
 
-
-
-
-
-      > .icon {
-        height: 22px;
-        width: 22px;
-        fill: currentColor;
-        overflow: hidden;
-        vertical-align: middle;
-        padding-left: 2px;
-        padding-bottom: 4px;
+      &:active {
+        background-color: rgb(234, 236, 239);
       }
+
+
     }
+
+
+    .icon {
+      height: 22px;
+      width: 22px;
+      fill: currentColor;
+      overflow: hidden;
+      vertical-align: middle;
+      padding-left: 2px;
+      padding-bottom: 4px;
+    }
+
   }
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <svg >
+  <svg class="svg-icon">
     <use  :xlink:href="'#' + name"/>
   </svg>
 </template>
@@ -20,6 +20,14 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="scss" >
+.svg-icon{
+  height: 22px;
+  width: 22px;
+  fill: currentColor;
+  overflow: hidden;
+  vertical-align: middle;
+  padding-left: 2px;
+  padding-bottom: 4px;
+}
 </style>

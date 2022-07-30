@@ -5,22 +5,17 @@
       <button @click="inputContent">1</button>
       <button @click="inputContent">2</button>
       <button @click="inputContent">3</button>
-      <button>+</button>
       <button @click="remove">删除</button>
       <button @click="inputContent">4</button>
       <button @click="inputContent">5</button>
       <button @click="inputContent">6</button>
-      <button>-</button>
       <button @click="clear">清空</button>
       <button @click="inputContent">7</button>
       <button @click="inputContent">8</button>
       <button @click="inputContent">9</button>
-      <button>x</button>
-      <button class="ok" @click="ok">OK</button>
-      <button @click="inputContent">0</button>
       <button @click="inputContent">.</button>
-      <button>%</button>
-      <button>+</button>
+      <button @click="inputContent">0</button>
+      <button class="ok" @click="ok">OK</button>
     </div>
   </div>
 </template>
@@ -71,13 +66,13 @@ export default class numberPad extends Vue {
   }
 
   ok() {
-    if(this.output === '0'){
-      window.alert('没钱不记账哦')
+    if (this.output === '0') {
+      this.$toast.fail('没钱不记账哦')
       return;
-    }else {
+    } else {
       this.$emit('update:value', this.output);
-      this.$emit('submit',this.output);
-      this.output = '0'
+      this.$emit('submit', this.output);
+      this.output = '0';
     }
 
   }
@@ -100,54 +95,38 @@ export default class numberPad extends Vue {
   }
 
   .buttons {
-    @extend %clearfix;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: stretch;
+    align-content: stretch;
+
+
 
     > button {
-      width: 20%;
+      flex-grow: 1;
+      flex-basis: 20%;
       height: 64px;
-      float: left;
-      background-color: transparent;
+      background-color: white;
+      border-radius: 8px;
       border: none;
+      margin: 0 6px 6px 0;
 
+      font-family: Consolas, monospace;
+      font-size: 28px;
 
-      &.ok {
-        height: 128px;
-        float: right;
+      &:nth-child(4) {
+        font-family: "Arial Black";
       }
 
-      $buttonColor: #c1ffff;
-
-      &:nth-child(1) {
-        background-color: $buttonColor;
+      &:nth-child(8) {
+        font-family: "Arial Black";
       }
 
-      &:nth-child(2), &:nth-child(6) {
-        background-color: darken($buttonColor, 5%);
+      &:active {
+        background-color: rgb(234, 236, 239);
       }
 
-      &:nth-child(3), &:nth-child(7), &:nth-child(11) {
-        background-color: darken($buttonColor, 10%);
-      }
 
-      &:nth-child(4), &:nth-child(8), &:nth-child(12), &:nth-child(16) {
-        background-color: darken($buttonColor, 15%);
-      }
-
-      &:nth-child(5), &:nth-child(9), &:nth-child(13), &:nth-child(17) {
-        background-color: darken($buttonColor, 20%);
-      }
-
-      &:nth-child(10), &:nth-child(14), &:nth-child(18) {
-        background-color: darken($buttonColor, 25%);
-      }
-
-      &:nth-child(19) {
-        background-color: darken($buttonColor, 30%);
-      }
-
-      &:nth-child(15) {
-        background-color: darken($buttonColor, 40%);
-      }
     }
   }
 }

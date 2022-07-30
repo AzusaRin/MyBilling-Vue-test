@@ -3,7 +3,7 @@
     <div class="content" v-bind:class="classPrefix && `${classPrefix}-content`">
       <slot/>
     </div>
-    <Nav/>
+      <Nav/>
   </div>
 </template>
 
@@ -20,7 +20,8 @@ export default {
   display: flex;
   border: 1px solid blue;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
+
 
 }
 .content{

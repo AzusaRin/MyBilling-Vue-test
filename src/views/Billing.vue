@@ -1,9 +1,13 @@
 <template>
   <layout class-prefix="layout">
-    <Tabs :data-source="recordTypeList" :value="record.type"/>
+    <Tabs :data-source="recordTypeList" :value.sync="record.type"/>
+    <van-notice-bar
+        color="#1989fa" background="#ecf9ff" left-icon="info-o"
+        text="记得要给我好评哦"
+    />
     <tags @update:value="nowTags"/>
     <div class="notes">
-      <FormItem field-name="备注" place-holder="请在这里输入备注" @update:value="nowNotes"/>
+      <FormItem field-name="备注" place-holder="请在这里输入备注" :value.sync="record.notes"/>
     </div>
     <number-pad @update:value="nowAmount" @submit="saveRecord"/>
   </layout>
@@ -38,13 +42,11 @@ export default class Billing extends Vue {
     this.$store.commit('fetchRecordList');
   }
 
-  nowTags(value: string[]) {
+  // eslint-disable-next-line no-undef
+  nowTags(value: Tag[]) {
     this.record.tags = value;
   }
 
-  nowNotes(value: string) {
-    this.record.notes = value;
-  }
 
 
   nowAmount(value: string) {
@@ -52,7 +54,15 @@ export default class Billing extends Vue {
   }
 
   saveRecord() {
+    if (!this.record.tags || this.record.tags.length === 0) {
+      return this.$toast.fail('请至少选择一个标签');
+    }
     this.$store.commit('createRecord', this.record);
+    if (this.$store.state.createRecordError === null) {
+      this.$toast.success('已记账');
+      this.record.notes = '';
+    }
+
 
   }
 

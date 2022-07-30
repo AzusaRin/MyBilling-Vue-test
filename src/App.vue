@@ -15,7 +15,7 @@ body {
   font-size: 16px;
   line-height: 1.5;
   color: #333;
-  background-color: bisque;
+  background-color: rgb(242,243,245);
 }
 
 

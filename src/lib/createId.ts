@@ -1,4 +1,4 @@
-let id: number = parseInt(window.localStorage.getItem('_idMax') || '0');
+let id: number = parseInt(window.localStorage.getItem('_idMax') || '21');
 
 function createId() {
   id++;

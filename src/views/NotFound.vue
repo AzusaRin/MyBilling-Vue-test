@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>当前路径不存在，请检查路径是否正确</div>
+    <van-empty description="404页面不存在" />
     <div>
       <router-link to="/">返回首页</router-link>
     </div>

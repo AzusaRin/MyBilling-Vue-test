@@ -42,6 +42,9 @@ created() {
   background-color: white;
   font-size: 16px;
   padding-left: 16px;
+  height: 600px;
+  overflow: scroll;
+  border-bottom: 1px solid #333333;
 
   svg {
     height: 24px;
