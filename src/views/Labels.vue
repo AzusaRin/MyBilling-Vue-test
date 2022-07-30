@@ -3,6 +3,7 @@
     <layout>
       <div class="tags">
         <router-link class="tag" :to="`/labels/edit/${tag.id}`" v-for="tag in tags" :key="tag.id">
+          <icon class="tagIcon" :name="iconName(tag)"/>
           <span>{{ tag.name }}</span>
           <Icon name="right"/>
         </router-link>
@@ -29,6 +30,14 @@ import createTagHelper from '@/mixins/createTagHelper';
 export default class Labels extends mixins(createTagHelper) {
   get tags() {
     return this.$store.state.tagList;
+  }
+  // eslint-disable-next-line no-undef
+  iconName(tag: Tag) {
+    if (parseInt(tag.id)<=20) {
+      return tag.name;
+    } else {
+      return 'tag';
+    }
   }
 
 created() {

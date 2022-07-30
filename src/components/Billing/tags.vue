@@ -7,6 +7,14 @@
         </svg>
         新增标签
       </button>
+      <router-link to="/labels/" class="item"  active-class="selected">
+        <button>
+        <svg class="icon">
+          <icon name="labels"/>
+        </svg>
+          管理标签
+        </button>
+      </router-link>
     </div>
     <ul class="current">
       <li v-for="tag in tagList" :key="tag.id"
@@ -133,6 +141,7 @@ export default class tags extends mixins(createTagHelper) {
 
   .new {
     display: flex;
+    justify-content: space-between;
 
 
     button {
