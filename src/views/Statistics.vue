@@ -1,24 +1,17 @@
 <template>
   <div>
     <layout>
-      <van-sticky>
-        <Tabs class-prefix="types" :data-source="recordTypeList" :value.sync="type"/>
-        <van-cell is-link @click="showPopup" class="van">
-          <svg class="icon">
-            <icon name="calendar"/>
-          </svg>
-         <span class="nowDate">{{ selectedDate(currentDate) }}</span></van-cell>
-        <van-popup v-model="show" round>
-          <van-datetime-picker
-              v-model="currentDate"
-              type="year-month"
-              title="选择年月"
-              :min-date="minDate"
-              :max-date="maxDate"
-              :formatter="formatter"
-          />
-        </van-popup>
-      </van-sticky>
+      <Tabs class-prefix="types" :data-source="recordTypeList" :value.sync="type"/>
+      <div class="block">
+          <span class="demonstration">
+          <icon name="calendar"/>
+          </span>
+        <el-date-picker class="picker"
+                        v-model="currentDate"
+                        type="month"
+                        placeholder="选择月">
+        </el-date-picker>
+      </div>
       <ol v-if="groupedList.length>0">
         <li v-for="(group,index) in groupedList" :key="index">
           <h3 class="title">{{ beautify(group.title) }} <span>总计￥{{ group.total }}</span></h3>
@@ -33,8 +26,8 @@
           </ol>
         </li>
       </ol>
-      <div v-else>
-        <van-empty image="error" description="当月没有相关记账记录"/>
+      <div v-else class="empty-wrapper">
+        <van-empty image="error" description="当月没有相关记账记录" class="empty"/>
       </div>
     </layout>
   </div>
@@ -129,19 +122,6 @@ export default class Statistics extends Vue {
     }
   }
 
-  formatter(type: string, val: number) {
-    if (type === 'year') {
-      return `${val}年`;
-    } else if (type === 'month') {
-      return `${val}月`;
-    }
-    return val;
-  }
-
-  showPopup() {
-    this.show = true;
-  }
-
 
   created() {
     this.$store.commit('fetchRecordList');
@@ -152,16 +132,15 @@ export default class Statistics extends Vue {
 
   type = '-';
   recordTypeList = recordTypeList;
-  minDate = new Date(2000, 0, 1);
-  maxDate = new Date();
   currentDate = new Date();
-  show = false;
+
 
 }
 </script>
 
 <style lang="scss" scoped>
 @import "~@/assets/style/helper.scss";
+
 ::v-deep {
   .types-tabs-item {
 
@@ -214,15 +193,46 @@ export default class Statistics extends Vue {
     vertical-align: middle;
 
   }
-  .nowDate{
+
+  .nowDate {
     margin-left: 40px;
   }
 
 
 }
-.van{
+
+.van {
   height: 50px;
   font-size: 25px;
   @extend %innerShadow;
+}
+
+.block {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 16px;
+
+  > .demonstration {
+    font-size: 25px;
+    padding-right: 16px;
+  }
+
+  > .picker {
+    flex: 1;
+
+  }
+}
+
+.empty-wrapper {
+  display: flex;
+  justify-content: center;
+
+  > .empty {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 </style>

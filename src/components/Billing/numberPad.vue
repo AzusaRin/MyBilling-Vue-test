@@ -67,7 +67,7 @@ export default class numberPad extends Vue {
 
   ok() {
     if (this.output === '0') {
-      this.$toast.fail('没钱不记账哦')
+      this.$message.warning('没钱不记账哦')
       return;
     } else {
       this.$emit('update:value', this.output);
@@ -91,7 +91,7 @@ export default class numberPad extends Vue {
     font-family: Consolas, monospace;
     padding: 9px 16px;
     text-align: right;
-    min-height: 72px;
+
   }
 
   .buttons {
@@ -105,7 +105,7 @@ export default class numberPad extends Vue {
     > button {
       flex-grow: 1;
       flex-basis: 20%;
-      height: 64px;
+      height: 3.5rem;
       background-color: white;
       border-radius: 8px;
       border: none;

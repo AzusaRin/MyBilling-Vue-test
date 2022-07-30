@@ -15,13 +15,15 @@ export default class DeleteButton extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/assets/style/helper.scss";
 .button {
-  background-color: #71C9CE;
+  @extend %outerShadow;
+  margin-top: 20px;
+  background-color: white;
+  padding: 8px 20px 8px 8px;
   color: #333333;
-  border-radius: 4px;
+  border-radius: 8px;
   border: none;
-  padding: 0 16px;
-  height: 40px;
 
 
   }

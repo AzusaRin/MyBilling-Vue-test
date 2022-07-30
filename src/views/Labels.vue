@@ -9,7 +9,14 @@
         </router-link>
       </div>
       <div class="createTag-wrapper">
-        <DeleteButton class="createTag" @click.native="createTag">新建标签</DeleteButton>
+        <DeleteButton class="createTag" @click.native="createTag">
+          <icon name="createTag"/>
+          新建标签
+        </DeleteButton>
+        <DeleteButton class="createTag" @click.native="tagClear">
+          <icon name="tagClear"/>
+          标签初始化
+        </DeleteButton>
       </div>
     </layout>
   </div>
@@ -31,16 +38,24 @@ export default class Labels extends mixins(createTagHelper) {
   get tags() {
     return this.$store.state.tagList;
   }
+
   // eslint-disable-next-line no-undef
   iconName(tag: Tag) {
-    if (parseInt(tag.id)<=20) {
+    if (parseInt(tag.id) <= 20) {
       return tag.name;
     } else {
       return 'tag';
     }
   }
 
-created() {
+  tagClear() {
+    if (window.confirm('真的要初始化所有标签吗？')) {
+      this.tags.splice(21, 10000);
+      this.$store.commit('saveTags');
+    }
+  }
+
+  created() {
     this.$store.commit('fetchTagList');
   }
 }
@@ -51,7 +66,7 @@ created() {
   background-color: white;
   font-size: 16px;
   padding-left: 16px;
-  height: 600px;
+  height: 30rem;
   overflow: scroll;
   border-bottom: 1px solid #333333;
 
@@ -79,6 +94,10 @@ created() {
   text-align: center;
   padding: 16px;
   margin-top: 44-16px;
+
+   > .createTag{
+     margin: 0 20px;
+   }
 }
 
 

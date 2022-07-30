@@ -1,14 +1,16 @@
 <template>
   <layout>
     <div class="navBar">
-      <Icon name="left" @click.native="goBack"/>
+      <Icon class="left"  name="left" @click.native="goBack"/>
       <span class="title">编辑标签</span>
     </div>
     <div class="form-wrapper">
       <FormItem :value="currentTag.name" @update:value="updateTag" field-name="标签名" place-holder="请输入标签名"/>
     </div>
     <div class="button-wrapper">
-      <DeleteButton @click.native="removeTag">删除标签</DeleteButton>
+      <DeleteButton @click.native="removeTag">
+        <icon name="deleteTag"/> 删除标签
+      </DeleteButton>
     </div>
   </layout>
 </template>
@@ -58,7 +60,7 @@ export default class EditLabel extends Vue {
 </script>
 
 <style lang="scss" scoped>
-svg {
+.left {
   height: 24px;
   width: 24px;
   vertical-align: -0.15em;
@@ -75,9 +77,7 @@ svg {
   padding: 12px 16px;
   background-color: #A6E3E9;
 
-  > .title {
 
-  }
 
 }
 

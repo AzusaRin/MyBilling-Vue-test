@@ -6,11 +6,17 @@ import store from './store';
 import Nav from '@/components/Nav.vue';
 import Layout from '@/components/Layout.vue';
 import Icon from '@/components/Icon.vue';
-import Vant from 'vant';
-import 'vant/lib/index.css';
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+import { Empty } from 'vant';
+
+Vue.use(Empty);
 
 
-Vue.use(Vant);
+Vue.use(ElementUI);
+
+
+
 
 
 
@@ -18,6 +24,7 @@ Vue.config.productionTip = false;
 Vue.component('Nav', Nav);
 Vue.component('Layout', Layout);
 Vue.component('Icon', Icon);
+
 
 
 

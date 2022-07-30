@@ -7,6 +7,7 @@
         </svg>
         新增标签
       </button>
+
       <router-link to="/labels/" class="item"  active-class="selected">
         <button>
         <svg class="icon">
@@ -40,10 +41,6 @@ import {mixins} from 'vue-class-component';
 export default class tags extends mixins(createTagHelper) {
 
   selectedTags: string[] = [];
-  show = false;
-  minDate = new Date(2020, 0, 1);
-  maxDate = new Date();
-  currentDate = new Date();
 
   get tagList() {
     return this.$store.state.tagList;
@@ -58,6 +55,9 @@ export default class tags extends mixins(createTagHelper) {
     }
   }
 
+
+
+
   created() {
     this.$store.commit('fetchTagList');
 
@@ -66,8 +66,8 @@ export default class tags extends mixins(createTagHelper) {
   toggle(tag: string) {
     if (this.selectedTags.includes(tag)) {
       this.selectedTags.splice(this.selectedTags.indexOf(tag), 1);
-    } else if (this.selectedTags.length >= 3) {
-      this.$toast.fail('最多选择三个标签哦');
+    } else if (this.selectedTags.length >= 2) {
+      this.$message.warning('最多选择两个标签哦');
       return;
     } else {
       this.selectedTags.push(tag);
@@ -85,7 +85,7 @@ export default class tags extends mixins(createTagHelper) {
 @import "~@/assets/style/helper.scss";
 
 .tags {
-  height: 250px;
+  height: 5rem;
   font-size: 14px;
   padding: 16px;
   flex-grow: 1;
@@ -153,6 +153,7 @@ export default class tags extends mixins(createTagHelper) {
       border-radius: 8px;
       border: none;
 
+
       &:active {
         background-color: rgb(234, 236, 239);
       }
@@ -169,9 +170,18 @@ export default class tags extends mixins(createTagHelper) {
       vertical-align: middle;
       padding-left: 2px;
       padding-bottom: 4px;
+
     }
 
   }
 }
+.calendar{
+  display: flex;
 
+
+  > .van-cell{
+width: 20%;
+
+  }
+}
 </style>

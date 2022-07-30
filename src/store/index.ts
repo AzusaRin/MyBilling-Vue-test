@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import clone from '@/lib/clone';
 import createId from '@/lib/createId';
 import router from '@/router';
 
@@ -41,13 +40,7 @@ const store = new Vuex.Store({
       state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]');
 
     },
-    createRecord(state, record: RecordItem) {
-      const newRecord: RecordItem = clone(record);
-      newRecord.createAt = new Date();
-      state.recordList.push(newRecord);
-      store.commit('saveRecords');
 
-    },
     saveRecords(state) {
       window.localStorage.setItem('recordList', JSON.stringify(state.recordList));
     },
@@ -64,8 +57,8 @@ const store = new Vuex.Store({
       if (names.includes(tagName)) {
         window.alert('请勿输入重复标签');
         return;
-      } else if (tagName.length >= 10) {
-        window.alert('标签名过长，请控制在10字符以内');
+      } else if (tagName.length >= 5) {
+        window.alert('标签名过长，请控制在4字符以内');
         return;
       } else {
         state.tagList.push({id, name: tagName});
