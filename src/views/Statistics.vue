@@ -24,7 +24,7 @@
           <ol>
             <li v-for="item in group.items" :key="item.id"
                 class="record">
-              <span>{{ tagToString(item.tags) }}</span>
+              <span> <icon  :name="tagToString(item.tags)"/>  {{ tagToString(item.tags) }}</span>
               <span class="notes">{{ item.notes }}</span>
               <span class="time">{{ timeChecker(item.createAt) }}</span>
               <span>￥{{ item.amount }}</span>
