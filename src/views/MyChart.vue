@@ -18,23 +18,7 @@
                         placeholder="选择月">
         </el-date-picker>
       </div>
-      <ol v-if="groupedList.length>0" class="titleSum">
-        <li v-for="(group,index) in groupedList" :key="index">
-          <h3 class="title">{{ beautify(group.title) }} <span>总计￥{{ group.total }}</span></h3>
-          <ol class="details">
-            <li v-for="item in group.items" :key="item.id"
-                class="record">
-              <span> <icon :name="tagToString(item.tags)"/>  {{ tagToString(item.tags) }}</span>
-              <span class="notes">{{ item.notes }}</span>
-              <span class="time">{{ timeChecker(item.createAt) }}</span>
-              <span>￥{{ item.amount }}</span>
-            </li>
-          </ol>
-        </li>
-      </ol>
-      <div v-else class="empty-wrapper">
-        <van-empty image="error" description="当月没有相关记账记录" class="empty"/>
-      </div>
+      <Chart :options="x"  class="chartWrapper"/>
     </layout>
   </div>
 </template>
@@ -146,41 +130,42 @@ export default class Statistics extends Vue {
   }
 
   get x(){
-    return{
-      title: {
-        text: 'Referer of a Website',
-        subtext: 'Fake Data',
-        left: 'center'
-      },
-      tooltip: {
-        trigger: 'item'
-      },
-      legend: {
-        orient: 'vertical',
-        left: 'left'
-      },
-      series: [
-        {
-          name: 'Access From',
-          type: 'pie',
-          radius: '50%',
-          data: [
-            { value: 1048, name: 'Search Engine' },
-            { value: 735, name: 'Direct' },
-            { value: 580, name: 'Email' },
-            { value: 484, name: 'Union Ads' },
-            { value: 300, name: 'Video Ads' }
-          ],
-          emphasis: {
-            itemStyle: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: 'rgba(0, 0, 0, 0.5)'
-            }
-          }
+return{
+  title: {
+    text: '',
+    subtext: '',
+    left: 'center'
+  },
+  tooltip: {
+    trigger: 'item'
+  },
+  legend: {
+    orient: 'vertical',
+    left: 'left'
+  },
+  series: [
+    {
+      name: 'Access From',
+      type: 'pie',
+      radius: '50%',
+      data: [
+        { value: 1048, name: 'Search Engine' },
+        { value: 735, name: 'Direct' },
+        { value: 580, name: 'Email' },
+        { value: 484, name: 'Union Ads' },
+        { value: 300, name: 'Video Ads' }
+      ],
+      emphasis: {
+        itemStyle: {
+          shadowBlur: 10,
+          shadowOffsetX: 0,
+          shadowColor: 'rgba(0, 0, 0, 0.5)'
         }
-      ]
+      }
     }
+  ]
+}
+
   }
 
 
@@ -357,7 +342,9 @@ export default class Statistics extends Vue {
 
 
 .titleSum {
-  max-height: 70.5vh;
+  max-height: 20vh;
   overflow: scroll;
 }
+
+
 </style>

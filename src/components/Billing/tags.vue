@@ -7,7 +7,6 @@
         </svg>
         新增标签
       </button>
-
       <router-link to="/labels/" class="item" active-class="selected">
         <button>
           <svg class="icon">
@@ -163,7 +162,7 @@ export default class tags extends mixins(createTagHelper) {
 
     button {
       @extend %outerShadow;
-      margin-top: 20px;
+      margin-top: 10px;
       background-color: white;
       padding: 8px 20px 8px 8px;
       color: #333333;

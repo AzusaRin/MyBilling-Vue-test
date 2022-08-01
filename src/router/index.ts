@@ -5,6 +5,7 @@ import Labels from '@/views/Labels.vue';
 import Statistics from '@/views/Statistics.vue';
 import NotFound from '@/views/NotFound.vue';
 import EditLabel from '@/views/EditLabel.vue';
+import MyChart from '@/views/MyChart.vue';
 
 Vue.use(VueRouter);
 
@@ -27,6 +28,11 @@ const routes: Array<RouteConfig> = [
     path: '/Statistics',
     name: 'Statistics',
     component: Statistics
+  },
+  {
+    path: '/MyChart',
+    name: 'MyChart',
+    component: MyChart
   },
   {
     path: '/labels/edit/:id',

@@ -12,6 +12,12 @@
       </svg>
       账本
     </router-link>
+    <router-link to="/mychart/" class="item"  active-class="selected">
+      <svg class="icon">
+        <icon name="chart"/>
+      </svg>
+      图表
+    </router-link>
   </nav>
 
 </template>
