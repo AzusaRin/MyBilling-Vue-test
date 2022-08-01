@@ -2,11 +2,12 @@
   <div>
     <layout>
       <Tabs class-prefix="types" :data-source="recordTypeList" :value.sync="type"/>
-      <div class="monthSum" v-for="(group1,index1) in sumList" :key="index1">
-        <h3> {{ monthBeautify(group1.title) }}{{ typeFetch(type) }}总计：
-        </h3>
-        <span>￥{{ group1.total }}</span>
-      </div>
+      <div v-if="groupedList.length>0">
+        <div class="monthSum" v-for="(group1,index1) in sumList" :key="index1">
+          <h3> {{ monthBeautify(group1.title) }}{{ typeFetch(type) }}总计：
+          </h3>
+          <span>￥{{ group1.total }}</span>
+        </div>
       <div class="block">
           <span class="demonstration">
           <icon name="calendar"/>
@@ -18,7 +19,11 @@
                         placeholder="选择月">
         </el-date-picker>
       </div>
-      <Chart :options="x"  class="chartWrapper"/>
+      <Chart :options="x" class="chartWrapper"/>
+      </div>
+      <div v-else class="empty-wrapper">
+        <van-empty image="error" description="当月没有相关记账记录" class="empty"/>
+      </div>
     </layout>
   </div>
 </template>
@@ -100,6 +105,10 @@ export default class Statistics extends Vue {
       items: RecordItem[]
       total?: number
     }[]
+    type ResultTagList = {
+      tagTitle: string
+      items: RecordItem[]
+    }[]
 
     const orderedRecordList = clone(recordList)
         .filter(r => r.type === this.type
@@ -114,6 +123,8 @@ export default class Statistics extends Vue {
       title: dayjs(orderedRecordList[0].createAt).format('YYYY-MM-DD'),
       items: [orderedRecordList[0]],
     }];
+
+
     for (let i = 1; i < orderedRecordList.length; i++) {
       const current = orderedRecordList[i];
       const latest = resultList[resultList.length - 1];
@@ -129,57 +140,106 @@ export default class Statistics extends Vue {
     return resultList;
   }
 
-  get x(){
-return{
-  title: {
-    text: '',
-    subtext: '',
-    left: 'center'
-  },
-  tooltip: {
-    trigger: 'item'
-  },
-  legend: {
-    orient: 'vertical',
-    left: 'left'
-  },
-  series: [
-    {
-      name: 'Access From',
-      type: 'pie',
-      radius: '50%',
-      data: [
-        { value: 1048, name: 'Search Engine' },
-        { value: 735, name: 'Direct' },
-        { value: 580, name: 'Email' },
-        { value: 484, name: 'Union Ads' },
-        { value: 300, name: 'Video Ads' }
-      ],
-      emphasis: {
-        itemStyle: {
-          shadowBlur: 10,
-          shadowOffsetX: 0,
-          shadowColor: 'rgba(0, 0, 0, 0.5)'
-        }
+  get tagGroupedList() {
+    const {recordList} = this;
+
+    type ResultTagList = {
+      tagTitle: string
+      items: RecordItem[]
+      total?: number
+    }[]
+
+    const orderedRecordList = clone(recordList)
+        .filter(r => r.type === this.type
+            && dayjs(r.createAt, 'month').format('YYYY-MM') === (dayjs(this.currentDate, 'month').format('YYYY-MM'))
+        )
+
+        .sort((a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf());
+    if (orderedRecordList.length === 0) {
+      return [];
+    }
+    const resultTagList: ResultTagList = [{
+      tagTitle: orderedRecordList[0].tags.map(t => t.name).toString(),
+      items: [orderedRecordList[0]],
+
+    }];
+
+
+    for (let i = 1; i < orderedRecordList.length; i++) {
+      const current = orderedRecordList[i];
+      const latest = resultTagList[resultTagList.length - 1];
+      if (latest.tagTitle === current.tags.map(t => t.name).toString()) {
+        latest.items.push(current);
+      } else {
+        resultTagList.push({tagTitle: current.tags.map(t => t.name).toString(), items: [current]});
       }
     }
-  ]
-}
+    resultTagList.map(group => {
+      group.total = group.items.reduce((sum, currentItem) => sum + currentItem.amount, 0);
+    });
+    return resultTagList;
+  }
+
+  get x() {
+
+    const arrayTag = [];
+    const arrayDate = [];
+    const dataDate = [];
+
+
+    for (let i = 0; i < this.groupedList.length; i++) {
+      arrayDate.push({
+        value: this.groupedList[i].total,
+        name: this.groupedList[i].title
+      });
+      arrayTag.push({
+        value: this.tagGroupedList[i].total,
+        name: this.tagGroupedList[i].tagTitle
+      });
+      dataDate.push(this.groupedList[i].title);
+
+    }
+
+
+    return {
+      tooltip: {
+        trigger: 'item',
+        formatter: '{a} <br/>{b}: {c} ({d}%)'
+      },
+      legend: {
+        data: dataDate
+      },
+      series: [
+        {
+          name: '标签合计',
+          type: 'pie',
+          selectedMode: 'single',
+          radius: [0, '30%'],
+          label: {
+            position: 'inner',
+            fontSize: 14
+          },
+          labelLine: {
+            show: false
+          },
+          data: arrayTag
+        },
+        {
+          name: '日期合计',
+          type: 'pie',
+          radius: ['45%', '60%'],
+          labelLine: {
+            length: 30
+          },
+          data: arrayDate
+        }
+      ]
+    };
 
   }
 
 
-  // eslint-disable-next-line no-undef
-  tagToString(tags: Tag[]) {
-    return tags.length === 0 ? '无标签' : tags.map(item => item.name).join(',');
 
-  }
-
-
-
-  timeChecker(date: Date) {
-    return dayjs(date).format('H时m分');
-  }
 
   beautify(string: string) {
     if (dayjs(string).isSame(dayjs(), 'day')) {
@@ -276,43 +336,33 @@ return{
     fill: currentColor;
     overflow: hidden;
     vertical-align: middle;
-
   }
-
   .nowDate {
     margin-left: 40px;
   }
-
-
 }
-
 .van {
   height: 50px;
   font-size: 25px;
   @extend %innerShadow;
 }
-
 .block {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   padding-left: 16px;
-
   > .demonstration {
     font-size: 25px;
     padding-right: 16px;
   }
-
   > .picker {
     flex: 1;
 
   }
 }
-
 .empty-wrapper {
   display: flex;
   justify-content: center;
-
   > .empty {
     display: flex;
     justify-content: center;
@@ -320,27 +370,19 @@ return{
     align-items: center;
   }
 }
-
 .monthSum {
   @extend %innerShadow;
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-
   > h3 {
     margin-left: 10px;
   }
-
   > span {
     font-size: 26px;
     margin-right: 10px;
   }
-
-
 }
-
-
 .titleSum {
   max-height: 20vh;
   overflow: scroll;
