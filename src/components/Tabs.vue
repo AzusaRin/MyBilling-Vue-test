@@ -1,5 +1,6 @@
 <template>
   <ul :class="{[classPrefix+'-tabs']:classPrefix}" class="tabs">
+    <li class="left"></li>
     <li
         v-for="item in dataSource" :key="item.value"
         @click="select(item)"
@@ -8,6 +9,7 @@
     >
      <span class="text">{{ item.text }}</span>
     </li>
+    <li class="right"></li>
   </ul>
 </template>
 
@@ -37,20 +39,41 @@ export default class Tabs extends Vue {
 .tabs {
   background-color: #71C9CE;
   display: flex;
-  font-size: 16px;
+  font-size: 18px;
 
+> .left{
+  width: 100px;
+}
+  > .right{
+    width: 100px;
+  }
 
   &-item {
     flex-grow: 1;
     display: flex;
     justify-content: center;
-    padding: 16px;
-    transition: all .6s;
+padding:20px 16px 8px 16px;
+    position: relative;
 
     &.selected {
       box-shadow: none;
       font-weight: bolder;
-      background: rgb(242, 243, 245);
+      &::after{
+        content: "";
+
+        width: 100%;
+
+        height: 2px;
+
+        background: #000;
+
+        position: absolute;
+
+        left: 0;
+
+bottom: 1px;
+
+      }
 
       > .text{
         @-webkit-keyframes shake {

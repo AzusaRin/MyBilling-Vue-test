@@ -209,12 +209,7 @@ export default class Statistics extends Vue {
 @import "~@/assets/style/helper.scss";
 
 ::v-deep {
-  .types-tabs-item {
 
-    &.selected {
-      background: rgb(242, 243, 245);
-    }
-  }
 
   .interval-tabs-item {
     height: 48px;
