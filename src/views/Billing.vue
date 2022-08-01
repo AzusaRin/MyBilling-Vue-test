@@ -3,12 +3,13 @@
     <Tabs :data-source="recordTypeList" :value.sync="record.type"/>
     <div class="block">
       <span class="demonstration">
-         <icon name="calendar" />
+         <icon name="calendar"/>
       </span>
-      <el-date-picker  class="picker"
-          v-model="selectedDate"
-          type="datetime"
-          placeholder="选择日期时间">
+      <el-date-picker class="picker"
+                      v-model="selectedDate"
+                      type="datetime"
+                      format="yyyy年M月d日H时m分"
+                      placeholder="选择日期时间">
       </el-date-picker>
     </div>
     <tags @update:value="nowTags"/>
@@ -41,12 +42,10 @@ export default class Billing extends Vue {
   }
 
   recordTypeList = recordTypeList;
-  selectedDate= new Date();
+  selectedDate = new Date();
   record: RecordItem = {
     tags: [], type: '-', notes: '', amount: 0
   };
-
-
 
 
   created() {
@@ -59,7 +58,6 @@ export default class Billing extends Vue {
   }
 
 
-
   nowAmount(value: string) {
     this.record.amount = parseFloat(value);
   }
@@ -69,15 +67,14 @@ export default class Billing extends Vue {
       return this.$message.warning('请至少选择一个标签');
     }
 
-      const newRecord: RecordItem = clone(this.record);
-      newRecord.createAt = this.selectedDate;
-      this.recordList.push(newRecord);
-      this.$store.commit('saveRecords');
+    const newRecord: RecordItem = clone(this.record);
+    newRecord.createAt = this.selectedDate;
+    this.recordList.push(newRecord);
+    this.$store.commit('saveRecords');
 
 
-      this.$message.success('已记账');
-      this.record.notes = '';
-
+    this.$message.success('已记账');
+    this.record.notes = '';
 
 
   }
@@ -96,18 +93,20 @@ export default class Billing extends Vue {
   background-color: white;
   padding: 6px 0;
 }
-.block{
+
+.block {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   padding-left: 16px;
 
-  > .demonstration{
+  > .demonstration {
     font-size: 25px;
     padding-right: 16px;
   }
-  > .picker{
-    flex:1;
+
+  > .picker {
+    flex: 1;
 
   }
 

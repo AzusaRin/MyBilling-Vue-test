@@ -2,6 +2,11 @@
   <div>
     <layout>
       <Tabs class-prefix="types" :data-source="recordTypeList" :value.sync="type"/>
+      <div class="monthSum" v-for="(group1,index1) in sumList" :key="index1">
+        <h3> {{ monthBeautify(group1.title) }}{{ typeFetch(type) }}总计：
+        </h3>
+        <span>￥{{ group1.total }}</span>
+      </div>
       <div class="block">
           <span class="demonstration">
           <icon name="calendar"/>
@@ -9,6 +14,7 @@
         <el-date-picker class="picker"
                         v-model="currentDate"
                         type="month"
+                        format="yyyy年M月"
                         placeholder="选择月">
         </el-date-picker>
       </div>
@@ -50,6 +56,54 @@ export default class Statistics extends Vue {
   get recordList() {
     // eslint-disable-next-line no-undef
     return (this.$store.state as RootState).recordList;
+
+
+  }
+
+  get sumList() {
+    const {recordList} = this;
+    type RecordSumList = {
+      title: string
+      items: RecordItem[]
+      total?: number
+    }[]
+
+    const thisMonthList = clone(recordList).filter(r => r.type === this.type
+        && dayjs(r.createAt, 'month').format('YYYY-MM') === (dayjs(this.currentDate, 'month').format('YYYY-MM'))
+    ).sort((a, b) => dayjs(b.createAt, 'month').valueOf() - dayjs(a.createAt, 'month').valueOf());
+
+    if (thisMonthList.length === 0) {
+      return [];
+    }
+
+    const recordSumList: RecordSumList = [{
+      title: dayjs(thisMonthList[0].createAt, 'month').format('YYYY-MM'),
+      items: [thisMonthList[0]],
+      total: thisMonthList[0].amount
+    }];
+
+    for (let i = 1; i < thisMonthList.length; i++) {
+      const current = thisMonthList[i];
+      const latest = recordSumList[recordSumList.length - 1];
+
+      if (dayjs(latest.title).isSame(dayjs(current.createAt), 'month')) {
+        latest.items.push(current);
+      } else {
+        recordSumList.push({
+          title: dayjs(current.createAt, 'month').format('YYYY-MM'),
+          items: [current]
+        });
+      }
+
+      recordSumList.map(g => {
+            g.total = g.items.reduce((sum, currentItem) => sum + currentItem.amount, 0);
+          }
+      );
+
+    }
+
+    return recordSumList;
+
 
   }
 
@@ -119,6 +173,19 @@ export default class Statistics extends Vue {
       return dayjs(string).format('前年M月D日');
     } else {
       return dayjs(string).format('YYYY年M月D日');
+    }
+  }
+
+  monthBeautify(string: string) {
+    return dayjs(string).format('YYYY年M月');
+
+  }
+
+  typeFetch(type: string) {
+    if (type === '-') {
+      return '支出';
+    } else {
+      return '收入';
     }
   }
 
@@ -234,5 +301,24 @@ export default class Statistics extends Vue {
     flex-direction: column;
     align-items: center;
   }
+}
+
+.monthSum {
+  @extend %innerShadow;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+
+  > h3 {
+    margin-left: 10px;
+  }
+
+  > span{
+    font-size: 26px;
+    margin-right: 10px;
+  }
+
+
 }
 </style>

@@ -134,6 +134,25 @@ export default class tags extends mixins(createTagHelper) {
       &.selected {
         > .svgWrapper {
           background-color: #71C9CE;
+          @-webkit-keyframes shake {
+            10% {
+              transform: rotate(15deg);
+            }
+            20% {
+              transform: rotate(-10deg);
+            }
+            30% {
+              transform: rotate(5deg);
+            }
+            40% {
+              transform: rotate(-5deg);
+            }
+            50%,
+            100% {
+              transform: rotate(0deg);
+            }
+          }
+          -webkit-animation: shake 1s 0.15s linear infinite;
         }
       }
     }
@@ -154,8 +173,10 @@ export default class tags extends mixins(createTagHelper) {
       border: none;
 
 
+
       &:active {
         background-color: rgb(234, 236, 239);
+
       }
 
 
