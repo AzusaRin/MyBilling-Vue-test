@@ -8,11 +8,11 @@
         新增标签
       </button>
 
-      <router-link to="/labels/" class="item"  active-class="selected">
+      <router-link to="/labels/" class="item" active-class="selected">
         <button>
-        <svg class="icon">
-          <icon name="labels"/>
-        </svg>
+          <svg class="icon">
+            <icon name="labels"/>
+          </svg>
           管理标签
         </button>
       </router-link>
@@ -48,14 +48,12 @@ export default class tags extends mixins(createTagHelper) {
 
   // eslint-disable-next-line no-undef
   iconName(tag: Tag) {
-    if (parseInt(tag.id)<=20) {
+    if (parseInt(tag.id) <= 20) {
       return tag.name;
     } else {
       return 'tag';
     }
   }
-
-
 
 
   created() {
@@ -66,9 +64,9 @@ export default class tags extends mixins(createTagHelper) {
   toggle(tag: string) {
     if (this.selectedTags.includes(tag)) {
       this.selectedTags.splice(this.selectedTags.indexOf(tag), 1);
-    } else if (this.selectedTags.length >= 2) {
-      this.$message.warning('最多选择两个标签哦');
-      return;
+    } else if (this.selectedTags.length >= 1) {
+      this.selectedTags.splice(0, 1);
+      this.selectedTags.push(tag);
     } else {
       this.selectedTags.push(tag);
     }
@@ -173,7 +171,6 @@ export default class tags extends mixins(createTagHelper) {
       border: none;
 
 
-
       &:active {
         background-color: rgb(234, 236, 239);
 
@@ -196,12 +193,13 @@ export default class tags extends mixins(createTagHelper) {
 
   }
 }
-.calendar{
+
+.calendar {
   display: flex;
 
 
-  > .van-cell{
-width: 20%;
+  > .van-cell {
+    width: 20%;
 
   }
 }

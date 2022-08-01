@@ -18,13 +18,13 @@
                         placeholder="选择月">
         </el-date-picker>
       </div>
-      <ol v-if="groupedList.length>0">
+      <ol v-if="groupedList.length>0" class="titleSum">
         <li v-for="(group,index) in groupedList" :key="index">
           <h3 class="title">{{ beautify(group.title) }} <span>总计￥{{ group.total }}</span></h3>
-          <ol>
+          <ol class="details">
             <li v-for="item in group.items" :key="item.id"
                 class="record">
-              <span> <icon  :name="tagToString(item.tags)"/>  {{ tagToString(item.tags) }}</span>
+              <span> <icon :name="tagToString(item.tags)"/>  {{ tagToString(item.tags) }}</span>
               <span class="notes">{{ item.notes }}</span>
               <span class="time">{{ timeChecker(item.createAt) }}</span>
               <span>￥{{ item.amount }}</span>
@@ -314,11 +314,17 @@ export default class Statistics extends Vue {
     margin-left: 10px;
   }
 
-  > span{
+  > span {
     font-size: 26px;
     margin-right: 10px;
   }
 
 
+}
+
+
+.titleSum {
+  max-height: 40vh;
+  overflow: scroll;
 }
 </style>
