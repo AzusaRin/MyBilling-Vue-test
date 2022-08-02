@@ -7,7 +7,7 @@
         </svg>
         新增标签
       </button>
-      <router-link to="/labels/" class="item" active-class="selected">
+      <router-link to="/labels/" class="item" >
         <button>
           <svg class="icon">
             <icon name="labels"/>
