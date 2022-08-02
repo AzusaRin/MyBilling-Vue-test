@@ -177,20 +177,21 @@ export default class Statistics extends Vue {
     const arrayTag = [];
     const arrayDate = [];
     const dataDate = [];
-
     for (let i = 0; i < this.groupedList.length; i++) {
       arrayDate.push({
         value: this.groupedList[i].total,
         name: this.groupedList[i].title
       });
+
+      dataDate.push(this.groupedList[i].title);
+
+    }
+    for (let i = 0; i <this.tagGroupedList.length ; i++) {
       arrayTag.push({
         value: this.tagGroupedList[i].total,
         name: this.tagGroupedList[i].tagTitle
       });
-      dataDate.push(this.groupedList[i].title);
-
     }
-
     return {
       tooltip: {
         trigger: 'item',
