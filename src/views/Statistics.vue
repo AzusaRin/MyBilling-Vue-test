@@ -65,8 +65,6 @@ export default class Statistics extends Vue {
   get recordList() {
     // eslint-disable-next-line no-undef
     return (this.$store.state as RootState).recordList;
-
-
   }
   // eslint-disable-next-line no-undef
   iconName(tag: Tag[]) {
@@ -84,7 +82,6 @@ export default class Statistics extends Vue {
       items: RecordItem[]
       total?: number
     }[]
-
     const thisMonthList = clone(recordList).filter(r => r.type === this.type
         && dayjs(r.createAt, 'month').format('YYYY-MM') === (dayjs(this.currentDate, 'month').format('YYYY-MM'))
     ).sort((a, b) => dayjs(b.createAt, 'month').valueOf() - dayjs(a.createAt, 'month').valueOf());
@@ -92,13 +89,11 @@ export default class Statistics extends Vue {
     if (thisMonthList.length === 0) {
       return [];
     }
-
     const recordSumList: RecordSumList = [{
       title: dayjs(thisMonthList[0].createAt, 'month').format('YYYY-MM'),
       items: [thisMonthList[0]],
       total: thisMonthList[0].amount
     }];
-
     for (let i = 1; i < thisMonthList.length; i++) {
       const current = thisMonthList[i];
       const latest = recordSumList[recordSumList.length - 1];
@@ -111,17 +106,13 @@ export default class Statistics extends Vue {
           items: [current]
         });
       }
-
       recordSumList.map(g => {
             g.total = g.items.reduce((sum, currentItem) => sum + currentItem.amount, 0);
           }
       );
 
     }
-
     return recordSumList;
-
-
   }
 
   get groupedList() {
@@ -162,16 +153,11 @@ export default class Statistics extends Vue {
   }
 
 
-
-
-
   // eslint-disable-next-line no-undef
   tagToString(tags: Tag[]) {
     return tags.length === 0 ? '无标签' : tags.map(item => item.name).join(',');
 
   }
-
-
 
   timeChecker(date: Date) {
     return dayjs(date).format('H时m分');
@@ -207,7 +193,6 @@ export default class Statistics extends Vue {
       return '收入';
     }
   }
-
 
   created() {
     this.$store.commit('fetchRecordList');

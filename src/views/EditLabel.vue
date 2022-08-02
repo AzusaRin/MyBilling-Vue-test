@@ -39,8 +39,6 @@ export default class EditLabel extends Vue {
       this.$router.replace('/404');
     }
   }
-
-
   updateTag(tagName: string) {
     if (this.currentTag) {
       this.$store.commit('updateTag',{id:this.currentTag.id,name:tagName})
@@ -70,15 +68,11 @@ export default class EditLabel extends Vue {
   position: absolute;
   left: 16px;
 }
-
 .navBar {
   text-align: center;
   font-size: 16px;
   padding: 12px 16px;
   background-color: #A6E3E9;
-
-
-
 }
 
 .form-wrapper {

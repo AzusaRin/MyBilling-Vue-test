@@ -1,5 +1,5 @@
 <template>
-  <layout class-prefix="layout">
+  <layout class-prefix="layout" ref="layout"  :style="{height:h+'px'}">
     <Tabs :data-source="recordTypeList" :value.sync="record.type"/>
     <div class="block">
       <span class="demonstration">
@@ -40,7 +40,7 @@ export default class Billing extends Vue {
   get recordList() {
     return this.$store.state.recordList;
   }
-
+  h = document.body.clientHeight;
   recordTypeList = recordTypeList;
   selectedDate = new Date();
   record: RecordItem = {

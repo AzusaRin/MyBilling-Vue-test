@@ -19,7 +19,7 @@
           </h3>
           <span>￥{{ group1.total }}</span>
         </div>
-      <Chart :options="x" class="chartWrapper"/>
+      <Chart :options="chartOptions" class="chartWrapper"/>
       </div>
       <div v-else class="empty-wrapper">
         <van-empty image="error" description="当月没有相关记账记录" class="empty"/>
@@ -54,8 +54,6 @@ export default class Statistics extends Vue {
   get recordList() {
     // eslint-disable-next-line no-undef
     return (this.$store.state as RootState).recordList;
-
-
   }
 
   get sumList() {
@@ -65,7 +63,6 @@ export default class Statistics extends Vue {
       items: RecordItem[]
       total?: number
     }[]
-
     const thisMonthList = clone(recordList).filter(r => r.type === this.type
         && dayjs(r.createAt, 'month').format('YYYY-MM') === (dayjs(this.currentDate, 'month').format('YYYY-MM'))
     ).sort((a, b) => dayjs(b.createAt, 'month').valueOf() - dayjs(a.createAt, 'month').valueOf());
@@ -73,7 +70,6 @@ export default class Statistics extends Vue {
     if (thisMonthList.length === 0) {
       return [];
     }
-
     const recordSumList: RecordSumList = [{
       title: dayjs(thisMonthList[0].createAt, 'month').format('YYYY-MM'),
       items: [thisMonthList[0]],
@@ -83,7 +79,6 @@ export default class Statistics extends Vue {
     for (let i = 1; i < thisMonthList.length; i++) {
       const current = thisMonthList[i];
       const latest = recordSumList[recordSumList.length - 1];
-
       if (dayjs(latest.title).isSame(dayjs(current.createAt), 'month')) {
         latest.items.push(current);
       } else {
@@ -92,16 +87,13 @@ export default class Statistics extends Vue {
           items: [current]
         });
       }
-
       recordSumList.map(g => {
             g.total = g.items.reduce((sum, currentItem) => sum + currentItem.amount, 0);
           }
       );
 
     }
-
     return recordSumList;
-
 
   }
 
@@ -112,10 +104,6 @@ export default class Statistics extends Vue {
       title: string
       items: RecordItem[]
       total?: number
-    }[]
-    type ResultTagList = {
-      tagTitle: string
-      items: RecordItem[]
     }[]
 
     const orderedRecordList = clone(recordList)
@@ -131,8 +119,6 @@ export default class Statistics extends Vue {
       title: dayjs(orderedRecordList[0].createAt).format('YYYY-MM-DD'),
       items: [orderedRecordList[0]],
     }];
-
-
     for (let i = 1; i < orderedRecordList.length; i++) {
       const current = orderedRecordList[i];
       const latest = resultList[resultList.length - 1];
@@ -156,7 +142,6 @@ export default class Statistics extends Vue {
       items: RecordItem[]
       total?: number
     }[]
-
     const orderedRecordList = clone(recordList)
         .filter(r => r.type === this.type
             && dayjs(r.createAt, 'month').format('YYYY-MM') === (dayjs(this.currentDate, 'month').format('YYYY-MM'))
@@ -171,7 +156,6 @@ export default class Statistics extends Vue {
       items: [orderedRecordList[0]],
 
     }];
-
 
     for (let i = 1; i < orderedRecordList.length; i++) {
       const current = orderedRecordList[i];
@@ -188,12 +172,11 @@ export default class Statistics extends Vue {
     return resultTagList;
   }
 
-  get x() {
+  get chartOptions() {
 
     const arrayTag = [];
     const arrayDate = [];
     const dataDate = [];
-
 
     for (let i = 0; i < this.groupedList.length; i++) {
       arrayDate.push({
@@ -207,7 +190,6 @@ export default class Statistics extends Vue {
       dataDate.push(this.groupedList[i].title);
 
     }
-
 
     return {
       tooltip: {
@@ -243,10 +225,7 @@ export default class Statistics extends Vue {
         }
       ]
     };
-
   }
-
-
 
 
   beautify(string: string) {
@@ -283,14 +262,15 @@ export default class Statistics extends Vue {
 
   created() {
     this.$store.commit('fetchRecordList');
-
-
   }
+
+
 
 
   type = '-';
   recordTypeList = recordTypeList;
   currentDate = new Date();
+
 
 
 }
