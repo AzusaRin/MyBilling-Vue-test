@@ -24,7 +24,7 @@
           <ol class="details">
             <li v-for="item in group.items" :key="item.id"
                 class="record">
-              <span> <icon :name="tagToString(item.tags)"/>  {{ tagToString(item.tags) }}</span>
+              <span> <icon :name="iconName(item.tags)"/>  {{ tagToString(item.tags)}}</span>
               <span class="notes">{{ item.notes }}</span>
               <span class="time">{{ timeChecker(item.createAt) }}</span>
               <span>￥{{ item.amount }}</span>
@@ -67,6 +67,14 @@ export default class Statistics extends Vue {
     return (this.$store.state as RootState).recordList;
 
 
+  }
+  // eslint-disable-next-line no-undef
+  iconName(tag: Tag[]) {
+    if (parseInt(tag.map(t=>t.id).toString()) <= 20) {
+      return tag.map(t=>t.name).toString();
+    } else {
+      return 'tag';
+    }
   }
 
   get sumList() {

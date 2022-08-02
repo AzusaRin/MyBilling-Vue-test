@@ -116,11 +116,11 @@ export default class numberPad extends Vue {
       font-size: 28px;
 
       &:nth-child(4) {
-        font-family: "Arial Black";
+        font-family: "Arial Black",serif;
       }
 
       &:nth-child(8) {
-        font-family: "Arial Black";
+        font-family: "Arial Black",serif;
       }
 
       &:active {
