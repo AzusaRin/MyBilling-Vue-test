@@ -104,6 +104,7 @@ export default class numberPad extends Vue {
 
 
     > button {
+      color: #000000;
       flex-grow: 1;
       flex-basis: 20%;
       height: 3.5rem;
@@ -111,7 +112,6 @@ export default class numberPad extends Vue {
       border-radius: 8px;
       border: none;
       margin: 0 6px 6px 0;
-
       font-family: Consolas, monospace;
       font-size: 28px;
 
