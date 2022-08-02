@@ -64,7 +64,7 @@ export default class Billing extends Vue {
 
   saveRecord() {
     if (!this.record.tags || this.record.tags.length === 0) {
-      return this.$message.warning('请至少选择一个标签');
+      return this.$message.warning('请选择一个标签');
     }
 
     const newRecord: RecordItem = clone(this.record);

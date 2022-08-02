@@ -2,11 +2,6 @@
   <div>
     <layout>
       <Tabs class-prefix="types" :data-source="recordTypeList" :value.sync="type"/>
-      <div class="monthSum" v-for="(group1,index1) in sumList" :key="index1">
-        <h3> {{ monthBeautify(group1.title) }}{{ typeFetch(type) }}总计：
-        </h3>
-        <span>￥{{ group1.total }}</span>
-      </div>
       <div class="block">
           <span class="demonstration">
           <icon name="calendar"/>
@@ -17,6 +12,11 @@
                         format="yyyy年M月"
                         placeholder="选择月">
         </el-date-picker>
+      </div>
+      <div class="monthSum" v-for="(group1,index1) in sumList" :key="index1">
+        <h3> {{ monthBeautify(group1.title) }}{{ typeFetch(type) }}总计：
+        </h3>
+        <span>￥{{ group1.total }}</span>
       </div>
       <ol v-if="groupedList.length>0" class="titleSum">
         <li v-for="(group,index) in groupedList" :key="index">
@@ -34,6 +34,14 @@
       </ol>
       <div v-else class="empty-wrapper">
         <van-empty image="error" description="当月没有相关记账记录" class="empty"/>
+        <router-link to="/billing/" >
+          <button>
+            <svg class="icon">
+              <icon name="billing"/>
+            </svg>
+           去记一笔
+          </button>
+        </router-link>
       </div>
     </layout>
   </div>
@@ -292,12 +300,30 @@ export default class Statistics extends Vue {
 .empty-wrapper {
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  align-items: center;
 
   > .empty {
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
+  }
+
+  button {
+    @extend %outerShadow;
+    margin-top: 30px;
+    background-color: white;
+    padding: 8px 20px 8px 8px;
+    color: #333333;
+    border-radius: 8px;
+    border: none;
+
+
+    &:active {
+      background-color: rgb(234, 236, 239);
+
+    }
   }
 }
 

@@ -7,7 +7,7 @@
         :class="{selected:item.value === value,[classPrefix+'-tabs-item']:classPrefix}"
         class="tabs-item"
     >
-     <span class="text">{{ item.text }}</span>
+      <span class="text">{{ item.text }}</span>
     </li>
     <li class="right"></li>
   </ul>
@@ -41,10 +41,11 @@ export default class Tabs extends Vue {
   display: flex;
   font-size: 18px;
 
-> .left{
-  width: 100px;
-}
-  > .right{
+  > .left {
+    width: 100px;
+  }
+
+  > .right {
     width: 100px;
   }
 
@@ -52,13 +53,14 @@ export default class Tabs extends Vue {
     flex-grow: 1;
     display: flex;
     justify-content: center;
-padding:20px 16px 8px 16px;
+    padding: 20px 16px 8px 16px;
     position: relative;
 
     &.selected {
       box-shadow: none;
       font-weight: bolder;
-      &::after{
+
+      &::after {
         content: "";
 
         width: 100%;
@@ -71,35 +73,9 @@ padding:20px 16px 8px 16px;
 
         left: 0;
 
-bottom: 1px;
+        bottom: 1px;
 
       }
-
-      > .text{
-        @-webkit-keyframes shake {
-          10% {
-            transform: rotate(15deg);
-          }
-          20% {
-            transform: rotate(-10deg);
-          }
-          30% {
-            transform: rotate(5deg);
-          }
-          40% {
-            transform: rotate(-5deg);
-          }
-          50%,
-          100% {
-            transform: rotate(0deg);
-          }
-        }
-        -webkit-animation: shake 1s 0.15s linear infinite;
-      }
-
-
-
-
     }
   }
 }

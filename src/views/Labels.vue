@@ -13,7 +13,6 @@
           <icon name="createTag"/>
           新建标签
         </DeleteButton>
-        <el-divider direction="vertical"></el-divider>
         <DeleteButton class="createTag" @click.native="tagReset">
           <icon name="tagReset"/>
           标签初始化

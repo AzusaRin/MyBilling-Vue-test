@@ -67,7 +67,7 @@ export default class numberPad extends Vue {
 
 
   ok() {
-    if (this.output === '0') {
+    if (this.output === '0' || this.output==='0.') {
       this.$message.warning('没钱不记账哦')
       return;
     } else {
