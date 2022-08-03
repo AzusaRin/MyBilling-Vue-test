@@ -3,7 +3,7 @@
     <div class="content" v-bind:class="classPrefix && `${classPrefix}-content`">
       <slot/>
     </div>
-      <Nav/>
+      <Nav class="nav"/>
   </div>
 </template>
 
@@ -27,6 +27,16 @@ export default {
   flex-grow: 1;
   overflow: auto;
   padding-top: 55px;
+  padding-bottom: 60px;
+}
+
+.nav{
+  max-width: 470px;
+  width: 100vw;
+  position: fixed;
+  bottom:0;
+  background-color: rgb(242,243,245);
+  z-index: 1;
 }
 
 
