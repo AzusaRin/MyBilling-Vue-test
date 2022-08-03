@@ -1,6 +1,6 @@
 <template>
   <layout class-prefix="layout" >
-    <Tabs :data-source="recordTypeList" :value.sync="record.type"/>
+    <Tabs :data-source="recordTypeList" :value.sync="record.type"  class="typeTab"/>
     <div class="block">
       <span class="demonstration">
          <icon name="calendar"/>
@@ -88,6 +88,15 @@ export default class Billing extends Vue {
 .layout-content {
   display: flex;
   flex-direction: column;
+
+
+  > .typeTab{
+    max-width: 470px;
+    width: 100vw;
+    position: fixed;
+    top:0;
+    z-index: 1;
+  }
 
 }
 

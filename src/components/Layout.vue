@@ -18,15 +18,15 @@ export default {
 
 .layout-wrapper{
   display: flex;
-  border: 1px solid blue;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
 
 
 }
 .content{
-  flex: 1;
+  flex-grow: 1;
   overflow: auto;
+  padding-top: 55px;
 }
 
 

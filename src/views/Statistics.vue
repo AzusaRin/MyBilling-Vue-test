@@ -1,7 +1,7 @@
 <template>
   <div>
     <layout>
-      <Tabs class-prefix="types" :data-source="recordTypeList" :value.sync="type"/>
+      <Tabs class-prefix="types" :data-source="recordTypeList" :value.sync="type"  class="typeTab"/>
       <div class="block">
           <span class="demonstration">
           <icon name="calendar"/>
@@ -215,10 +215,6 @@ export default class Statistics extends Vue {
 ::v-deep {
 
 
-  .interval-tabs-item {
-    height: 48px;
-  }
-
   %item {
     padding: 8px 16px;
     line-height: 24px;
@@ -289,6 +285,14 @@ export default class Statistics extends Vue {
 
   }
 }
+.typeTab {
+  max-width: 470px;
+  width: 100vw;
+  position: fixed;
+  top:0;
+  z-index: 1;
+}
+
 
 .empty-wrapper {
   display: flex;

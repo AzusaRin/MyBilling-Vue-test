@@ -101,6 +101,7 @@ export default class numberPad extends Vue {
     flex-wrap: wrap;
     justify-content: stretch;
     align-content: stretch;
+    padding-left: 6px;
 
 
 
