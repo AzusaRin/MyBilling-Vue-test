@@ -1,5 +1,5 @@
 <template>
-  <layout>
+  <layout class-prefix="layout">
     <div class="navBar">
       <Icon class="left"  name="left" @click.native="goBack"/>
       <span class="title">编辑标签</span>
@@ -58,6 +58,11 @@ export default class EditLabel extends Vue {
 </script>
 
 <style lang="scss" scoped>
+::v-deep{
+  .layout-content{
+    padding-top: 0!important;
+  }
+}
 .left {
   height: 24px;
   width: 24px;

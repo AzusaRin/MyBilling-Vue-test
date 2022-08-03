@@ -1,6 +1,6 @@
 <template>
   <div class="layout-wrapper">
-    <div class="content" v-bind:class="classPrefix && `${classPrefix}-content`">
+    <div class="content" :class="classPrefix && `${classPrefix}-content`">
       <slot/>
     </div>
       <Nav class="nav"/>
@@ -15,11 +15,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/assets/style/helper.scss";
 
 .layout-wrapper{
   display: flex;
   flex-direction: column;
   height: 100vh;
+  @extend %outerShadow;
 
 
 }
