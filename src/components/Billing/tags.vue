@@ -22,7 +22,7 @@
           @click="toggle(tag)"
       >
         <div class="svgWrapper">
-          <icon class="tagIcon" :name="iconName(tag)"/>
+          <icon class="tagIcon" :name="tagNameSetting(tag)"/>
         </div>
         {{ tag.name }}
       </li>
@@ -34,6 +34,7 @@
 import {Component} from 'vue-property-decorator';
 import {createTagHelper} from '@/mixins/createTagHelper';
 import {mixins} from 'vue-class-component';
+import iconSetting from '@/lib/iconSetting';
 
 
 @Component
@@ -43,11 +44,41 @@ export default class tags extends mixins(createTagHelper) {
 
   get tagList() {
     return this.$store.state.tagList;
+
+  }
+
+  // eslint-disable-next-line no-undef
+   tagNameSetting(tag:Tag){
+   return  iconSetting(tag)
   }
 
   // eslint-disable-next-line no-undef
   iconName(tag: Tag) {
-    if (parseInt(tag.id) <= 20) {
+    const defaultTagsName = [
+      {id:'0',name:'交通'},
+      {id:'1',name:'餐饮'},
+      {id:'2',name:'礼金'},
+      {id:'3',name:'学习'},
+      {id:'4',name:'维修'},
+      {id:'5',name:'旅行'},
+      {id:'6',name:'数码'},
+      {id:'7',name:'汽车'},
+      {id:'8',name:'书籍'},
+      {id:'9',name:'烟酒'},
+      {id:'10',name:'社交'},
+      {id:'11',name:'礼物'},
+      {id:'12',name:'办公'},
+      {id:'13',name:'长辈'},
+      {id:'14',name:'孩子'},
+      {id:'15',name:'住房'},
+      {id:'16',name:'美容'},
+      {id:'17',name:'衣服'},
+      {id:'18',name:'电话'},
+      {id:'19',name:'家具'},
+      {id:'20',name:'娱乐'}].map(n=>n.name)
+    console.log(defaultTagsName)
+    console.log(defaultTagsName.includes(tag.name.toString()))
+    if (parseInt(tag.id) <= 20 && defaultTagsName.includes(tag.name.toString())) {
       return tag.name;
     } else {
       return 'tag';

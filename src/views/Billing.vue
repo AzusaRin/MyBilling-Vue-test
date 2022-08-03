@@ -64,8 +64,8 @@ export default class Billing extends Vue {
 
   saveRecord() {
     if (!this.record.tags || this.record.tags.length === 0) {
-      
-      return this.$message.warning('请选择一个标签');
+
+      return this.$message.warning({message:'请选择一个标签',showClose:true});
 
     }
 
@@ -75,7 +75,7 @@ export default class Billing extends Vue {
     this.$store.commit('saveRecords');
 
 
-    this.$message.success('已记账');
+    this.$message.success({message:'已记账',showClose:true});
     this.record.notes = '';
 
 

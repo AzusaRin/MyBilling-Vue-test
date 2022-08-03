@@ -3,7 +3,7 @@
     <layout class-prefix="layout">
       <div class="tags">
         <router-link class="tag" :to="`/labels/edit/${tag.id}`" v-for="tag in tags" :key="tag.id">
-          <icon class="tagIcon" :name="iconName(tag)"/>
+          <icon class="tagIcon" :name="tagNameSetting(tag)"/>
           <span>{{ tag.name }}</span>
           <Icon name="right"/>
         </router-link>
@@ -29,6 +29,8 @@ import {Component} from 'vue-property-decorator';
 import DeleteButton from '@/components/DeleteButton.vue';
 import {mixins} from 'vue-class-component';
 import createTagHelper from '@/mixins/createTagHelper';
+import iconSetting from '@/lib/iconSetting';
+import defaultTags from '@/constants/defaultTags';
 
 
 @Component({
@@ -40,39 +42,15 @@ export default class Labels extends mixins(createTagHelper) {
   }
 
   // eslint-disable-next-line no-undef
-  iconName(tag: Tag) {
-    if (parseInt(tag.id) <= 20) {
-      return tag.name;
-    } else {
-      return 'tag';
-    }
+  tagNameSetting(tag: Tag) {
+    return iconSetting(tag);
   }
 
   tagReset() {
     if (window.confirm('真的要初始化所有标签吗？')) {
 
       this.tags.splice(0, 10000);
-      this.tags.push({id: '0', name: '交通'},
-          {id: '1', name: '餐饮'},
-          {id: '2', name: '礼金'},
-          {id: '3', name: '学习'},
-          {id: '4', name: '维修'},
-          {id: '5', name: '旅行'},
-          {id: '6', name: '数码'},
-          {id: '7', name: '汽车'},
-          {id: '8', name: '书籍'},
-          {id: '9', name: '烟酒'},
-          {id: '10', name: '社交'},
-          {id: '11', name: '礼物'},
-          {id: '12', name: '办公'},
-          {id: '13', name: '长辈'},
-          {id: '14', name: '孩子'},
-          {id: '15', name: '住房'},
-          {id: '16', name: '美容'},
-          {id: '17', name: '衣服'},
-          {id: '18', name: '电话'},
-          {id: '19', name: '家具'},
-          {id: '20', name: '娱乐'});
+      this.$store.state.tagList = this.tags.concat(defaultTags);
       this.$store.commit('saveTags');
     }
   }
@@ -87,7 +65,7 @@ export default class Labels extends mixins(createTagHelper) {
 <style lang="scss" scoped>
 ::v-deep {
   .layout-content {
-    padding-top: 0!important;
+    padding-top: 0 !important;
   }
 }
 

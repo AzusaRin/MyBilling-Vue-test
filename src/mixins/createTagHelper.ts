@@ -10,7 +10,7 @@ export class createTagHelper extends Vue {
       return;
     }
     else if(tagName.length===0){
-      this.$message.warning('标签名不能为空')
+      this.$message.warning({message:'标签名不能为空',showClose:true})
       return;
     }
     if (tagName) {

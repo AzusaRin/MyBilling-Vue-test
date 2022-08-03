@@ -57,8 +57,8 @@ const store = new Vuex.Store({
       if (names.includes(tagName)) {
         window.alert('请勿输入重复标签');
         return;
-      } else if (tagName.length >= 5) {
-        window.alert('标签名过长，请控制在4字符以内');
+      } else if (tagName.length >= 10) {
+        window.alert('标签名过长，请控制在10字符以内');
         return;
       } else {
         state.tagList.push({id, name: tagName});
@@ -90,7 +90,12 @@ const store = new Vuex.Store({
       const idList = state.tagList.map(item => item.id);
       if (idList.includes(id)) {
         const names = state.tagList.map(item => item.name);
-        if (names.includes(name)) {
+        if(!name){
+          window.alert('标签名不能为空')
+        }else if(name.length>=10){
+          window.alert('标签名不可超过10字符')
+        }
+        else if (names.includes(name)) {
           window.alert('标签名已存在');
         } else {
           const tag = state.tagList.filter(item => item.id === id)[0];

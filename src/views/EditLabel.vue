@@ -1,7 +1,7 @@
 <template>
   <layout class-prefix="layout">
     <div class="navBar">
-      <Icon class="left"  name="left" @click.native="goBack"/>
+      <Icon class="left" name="left" @click.native="goBack"/>
       <span class="title">编辑标签</span>
     </div>
     <div class="form-wrapper">
@@ -9,7 +9,8 @@
     </div>
     <div class="button-wrapper">
       <DeleteButton @click.native="removeTag">
-        <icon name="deleteTag"/> 删除标签
+        <icon name="deleteTag"/>
+        删除标签
       </DeleteButton>
     </div>
   </layout>
@@ -39,15 +40,16 @@ export default class EditLabel extends Vue {
       this.$router.replace('/404');
     }
   }
+
   updateTag(tagName: string) {
     if (this.currentTag) {
-      this.$store.commit('updateTag',{id:this.currentTag.id,name:tagName})
-    }
+        this.$store.commit('updateTag', {id: this.currentTag.id, name: tagName});
+      }
   }
 
   removeTag() {
     if (this.currentTag) {
-     this.$store.commit('removeTag',this.currentTag.id)
+      this.$store.commit('removeTag', this.currentTag.id);
     }
   }
 
@@ -58,11 +60,12 @@ export default class EditLabel extends Vue {
 </script>
 
 <style lang="scss" scoped>
-::v-deep{
-  .layout-content{
-    padding-top: 0!important;
+::v-deep {
+  .layout-content {
+    padding-top: 0 !important;
   }
 }
+
 .left {
   height: 24px;
   width: 24px;
@@ -73,6 +76,7 @@ export default class EditLabel extends Vue {
   position: absolute;
   left: 16px;
 }
+
 .navBar {
   text-align: center;
   font-size: 16px;
