@@ -5,12 +5,16 @@
       <span class="title">编辑标签</span>
     </div>
     <div class="form-wrapper">
-      <FormItem :value="currentTag.name" @update:value="updateTag" field-name="标签名" place-holder="请输入标签名"/>
+      <FormItem :value="currentTag.name" @update:value="beforeUpdateTag" field-name="标签名" place-holder="请输入标签名"/>
     </div>
     <div class="button-wrapper">
       <DeleteButton @click.native="removeTag">
         <icon name="deleteTag"/>
         删除标签
+      </DeleteButton>
+      <DeleteButton @click.native="updateTag">
+        <icon name="confirm"/>
+        确认修改
       </DeleteButton>
     </div>
   </layout>
@@ -28,6 +32,8 @@ import DeleteButton from '@/components/DeleteButton.vue';
 })
 export default class EditLabel extends Vue {
 
+  newTagName?: string = '';
+
   get currentTag() {
     return this.$store.state.currentTag;
   }
@@ -41,10 +47,16 @@ export default class EditLabel extends Vue {
     }
   }
 
-  updateTag(tagName: string) {
-    if (this.currentTag) {
-        this.$store.commit('updateTag', {id: this.currentTag.id, name: tagName});
-      }
+  updateTag() {
+    if (window.confirm('确定修改吗？')) {
+      this.$store.commit('updateTag', {id: this.currentTag.id, name: this.newTagName});
+    }
+
+  }
+
+
+  beforeUpdateTag(value: string) {
+    this.newTagName = value;
   }
 
   removeTag() {
@@ -78,6 +90,7 @@ export default class EditLabel extends Vue {
 }
 
 .navBar {
+  position: relative;
   text-align: center;
   font-size: 16px;
   padding: 12px 16px;
@@ -89,9 +102,13 @@ export default class EditLabel extends Vue {
 }
 
 .button-wrapper {
-  text-align: center;
   padding: 16px;
   margin-top: 44-16px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+
 
 }
 </style>
