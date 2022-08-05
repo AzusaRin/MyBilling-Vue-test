@@ -191,13 +191,5 @@ export default class tags extends mixins(createTagHelper) {
   }
 }
 
-.calendar {
-  display: flex;
 
-
-  > .van-cell {
-    width: 20%;
-
-  }
-}
 </style>

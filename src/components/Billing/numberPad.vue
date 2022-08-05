@@ -30,7 +30,7 @@ export default class numberPad extends Vue {
 
   inputContent(event: MouseEvent) {
     const button = (event.target as HTMLButtonElement);
-    const input = button.innerText !;
+    const input = button.textContent !;
     if (this.output.length === 16) {
       return;
     }
@@ -93,18 +93,13 @@ export default class numberPad extends Vue {
     font-family: Consolas, monospace;
     padding: 9px 16px;
     text-align: right;
-
   }
-
   .buttons {
     display: flex;
     flex-wrap: wrap;
     justify-content: stretch;
     align-content: stretch;
     padding-left: 6px;
-
-
-
     > button {
       color: #000000;
       flex-grow: 1;
@@ -116,20 +111,15 @@ export default class numberPad extends Vue {
       margin: 0 6px 6px 0;
       font-family: Consolas, monospace;
       font-size: 28px;
-
       &:nth-child(4) {
         font-family: "Arial Black",serif;
       }
-
       &:nth-child(8) {
         font-family: "Arial Black",serif;
       }
-
       &:active {
         background-color: rgb(234, 236, 239);
       }
-
-
     }
   }
 }
